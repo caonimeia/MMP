@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class MFLoginView : MFUIBase {
-    MFLoginViewBind uiBind;
+    private MFLoginViewBind uiBind;
 
     protected override void Awake() {
         base.Awake();
