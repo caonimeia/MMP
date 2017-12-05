@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class UIPrefabPath {
     private const string prePath = "ui/";
-    public const string loginView = prePath + "login/LoginView.prefab";
-    public const string mainView = prePath + "main/MainView.prefab";
+    public const string loginView = prePath + "login/LoginView";
+    public const string mainView = prePath + "main/MainView";
 }
 
 public static class MFUIList {
