@@ -16,9 +16,21 @@ public class MFHierarchy {
         GameObject obj = EditorUtility.InstanceIDToObject(instanceID) as GameObject;
         EditorGUI.BeginChangeCheck();
         if (obj) 
-            isOk = EditorGUI.Toggle(new Rect(selectionRect.x + selectionRect.width - 16f, selectionRect.y, 16f, 16f), obj.activeSelf);
+            isOk = EditorGUI.Toggle(new Rect(selectionRect.x + selectionRect.width - 32f, selectionRect.y, 16f, 16f), obj.activeSelf);
 
         if (EditorGUI.EndChangeCheck())
             obj.SetActive(isOk);
+
+        if (obj && PrefabUtility.GetPrefabType(obj) == PrefabType.PrefabInstance) {
+            if (GUI.Button(new Rect(selectionRect.x + selectionRect.width - 16f, selectionRect.y, 16f, 16f), "A")) {
+                UnityEngine.Object parentObject = PrefabUtility.GetPrefabParent(obj);
+                Debug.Log(PrefabUtility.GetPrefabType(obj));
+                Debug.Log(obj.transform.parent.name);
+                MFGameObjectUtil.GetRootObject(obj);
+                //PrefabUtility.ReplacePrefab(obj, parentObject);
+            }
+        }
+            
     }
+
 }
