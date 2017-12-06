@@ -6,11 +6,13 @@ public class UIPrefabPath {
     private const string prePath = "ui/";
     public const string loginView = prePath + "login/LoginView";
     public const string mainView = prePath + "main/MainView";
+    public const string bookView = prePath + "main/BookView";
 }
 
 public static class MFUIList {
     public static void Bind() {
         MFUIMgr.BindPrefab<MFLoginView>(UIPrefabPath.loginView, UILayer.main, UIInstanceType.single);
         MFUIMgr.BindPrefab<MFMainView>(UIPrefabPath.mainView, UILayer.main, UIInstanceType.single);
+        MFUIMgr.BindPrefab<MFBookView>(UIPrefabPath.bookView, UILayer.main, UIInstanceType.single);
     }
 }

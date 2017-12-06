@@ -1,16 +1,21 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
 public class MFBookInfo {
+    public int id;
     public string name;
     public int playerCount;
     public float price;
+    public bool isBuy;
+    public Action<MFBookInfo> action;
 
-    public bool free() {
-        return price <= 0;
+    public void OnAction() {
+        if (action != null)
+            action(this);
     }
 }
 
@@ -101,11 +106,28 @@ public class MFMainView : MFUIBase {
                 bookName.text = itor.Current.name;
                 Text bookPlayerCount = MFGameObjectUtil.Find<Text>(bookInfoObj, "PlayerCount");
                 bookPlayerCount.text = itor.Current.playerCount.ToString();
-                Text bookPrice = MFGameObjectUtil.Find<Text>(bookInfoObj, "Price");
-                bookPrice.text = itor.Current.free() ? "免费" : itor.Current.price.ToString();
+                GameObject openBookBtn = MFGameObjectUtil.Find(bookInfoObj, "Open");
+                GameObject buyBookBtn = MFGameObjectUtil.Find(bookInfoObj, "Buy");
+                if (itor.Current.isBuy) {
+                    buyBookBtn.SetActive(false);
+                    openBookBtn.SetActive(true);
+                    openBookBtn.GetComponent<Button>().onClick.AddListener(itor.Current.OnAction);
+                } else {
+                    openBookBtn.SetActive(false);
+                    buyBookBtn.SetActive(true);
+                    MFGameObjectUtil.Find<Text>(buyBookBtn, "Text").text = itor.Current.price.ToString();
+                    buyBookBtn.GetComponent<Button>().onClick.AddListener(itor.Current.OnAction);
+                }
 
                 bookObjList.Add(bookInfoObj);
             }
+        }
+    }
+
+    private void OnClickBook(MFBookInfo info) {
+        if (info.isBuy) {
+            MFUIMgr.Close<MFMainView>();
+            MFUIMgr.Open<MFBookView>();
         }
     }
 
@@ -113,18 +135,23 @@ public class MFMainView : MFUIBase {
         bookInfoList.Clear();
         for (int i = 0; i < 5; i++) {
             MFBookInfo info = new MFBookInfo {
+                id = i,
                 name = "办公室杀人案" + (i + 1),
                 playerCount = 4,
-                price = 0
+                isBuy = true,
             };
+            info.action = OnClickBook;
             bookInfoList.Add(info);
         }
 
         MFBookInfo info2 = new MFBookInfo {
+            id = 5,
             name = "办公室超级杀人案",
             playerCount = 4,
-            price = 2.5f
+            price = 2.5f,
+            isBuy = false,
         };
+        info2.action = OnClickBook;
         bookInfoList.Add(info2);
 
         return bookInfoList;
