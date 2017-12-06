@@ -58,14 +58,4 @@ public static class MFGameObjectUtil {
 
         return targetGo;
     }
-
-    /// <summary>
-    /// 获取GameObject根节点
-    /// </summary>
-    public static GameObject GetRootObject(GameObject childObject) {
-        if (childObject.transform.parent == null) 
-            return childObject;
-        else 
-            return GetRootObject(childObject);
-    }
 }

@@ -24,10 +24,8 @@ public class MFHierarchy {
         if (obj && PrefabUtility.GetPrefabType(obj) == PrefabType.PrefabInstance) {
             if (GUI.Button(new Rect(selectionRect.x + selectionRect.width - 16f, selectionRect.y, 16f, 16f), "A")) {
                 UnityEngine.Object parentObject = PrefabUtility.GetPrefabParent(obj);
-                Debug.Log(PrefabUtility.GetPrefabType(obj));
-                Debug.Log(obj.transform.parent.name);
-                MFGameObjectUtil.GetRootObject(obj);
-                //PrefabUtility.ReplacePrefab(obj, parentObject);
+                obj = PrefabUtility.FindPrefabRoot(obj);
+                PrefabUtility.ReplacePrefab(obj, parentObject);
             }
         }
             
