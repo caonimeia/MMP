@@ -208,7 +208,7 @@ RectTransform:
 RectTransform:
   m_PrefabParentObject: {fileID: 224808194662117660, guid: f7c93b7f472610f478b1d7fe923ed891,
     type: 2}
-  m_PrefabInternal: {fileID: 1491290385}
+  m_PrefabInternal: {fileID: 1421365922}
 --- !u!1 &477105530
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,6 +334,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &624358934 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114482495660531716, guid: f7c93b7f472610f478b1d7fe923ed891,
+    type: 2}
+  m_PrefabInternal: {fileID: 1421365922}
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &774114288
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,10 +526,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1929225123879066, guid: 4c6f73f524801d747a5279efb33dbb93, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4c6f73f524801d747a5279efb33dbb93, type: 2}
   m_IsPrefabParent: 0
@@ -565,7 +567,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1001 &1491290385
+--- !u!1001 &1421365922
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -662,10 +664,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1994765225584040, guid: f7c93b7f472610f478b1d7fe923ed891, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 224222001244667234, guid: f7c93b7f472610f478b1d7fe923ed891,
         type: 2}
       propertyPath: m_AnchorMin.y
@@ -756,6 +754,16 @@ Prefab:
       propertyPath: m_SizeDelta.y
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 114297369334026692, guid: f7c93b7f472610f478b1d7fe923ed891,
+        type: 2}
+      propertyPath: reserveRoomBtn
+      value: 
+      objectReference: {fileID: 2081691745}
+    - target: {fileID: 114297369334026692, guid: f7c93b7f472610f478b1d7fe923ed891,
+        type: 2}
+      propertyPath: openRoomBtn
+      value: 
+      objectReference: {fileID: 624358934}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f7c93b7f472610f478b1d7fe923ed891, type: 2}
   m_IsPrefabParent: 0
@@ -896,3 +904,9 @@ Transform:
   m_Father: {fileID: 152121879}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2081691745 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114980511607030148, guid: f7c93b7f472610f478b1d7fe923ed891,
+    type: 2}
+  m_PrefabInternal: {fileID: 1421365922}
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}

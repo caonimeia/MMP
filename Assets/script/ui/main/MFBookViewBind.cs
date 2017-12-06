@@ -12,4 +12,6 @@ public class MFBookViewBind : MonoBehaviour {
     public Toggle characterInfoToggle;
 
     public Button backBtn;
+    public Button reserveRoomBtn;
+    public Button openRoomBtn;
 }

@@ -14,27 +14,52 @@ public class MFBookView : MFUIBase {
 
     protected override void Start() {
         base.Start();
-
-        uiBind.backBtn.onClick.AddListener(OnClickBackBtn);
-        
     }
 
     protected override void OnEnable() {
         base.OnEnable();
 
         AddToggleListener();
+        AddBtnListener();
+
         uiBind.backStoryToggle.Select();
         uiBind.backStoryToggle.isOn = true;
     }
 
     protected override void OnDisable() {
         base.OnDisable();
+
         RemoveToggleListener();
+        RemoveBtnListener();
+    }
+
+    protected override void OnDestroy() {
+        base.OnDestroy();
     }
 
     private void OnClickBackBtn() {
         MFUIMgr.Close<MFBookView>();
         MFUIMgr.Open<MFMainView>();
+    }
+
+    private void AddBtnListener() {
+        uiBind.backBtn.onClick.AddListener(OnClickBackBtn);
+        uiBind.reserveRoomBtn.onClick.AddListener(OnReserverRoomBtnClick);
+        uiBind.openRoomBtn.onClick.AddListener(OnOpenRoomBtnClick);
+    }
+
+    private void RemoveBtnListener() {
+        uiBind.backBtn.onClick.RemoveListener(OnClickBackBtn);
+        uiBind.reserveRoomBtn.onClick.RemoveListener(OnReserverRoomBtnClick);
+        uiBind.openRoomBtn.onClick.RemoveListener(OnOpenRoomBtnClick);
+    }
+
+    private void OnReserverRoomBtnClick() {
+        MFLog.LogInfo("OnReserverRoomBtnClick");
+    }
+
+    private void OnOpenRoomBtnClick() {
+        MFLog.LogInfo("OnOpenRoomBtnClick");
     }
 
     private void AddToggleListener() {
