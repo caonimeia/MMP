@@ -127,7 +127,7 @@ public class MFMainView : MFUIBase {
     private void OnClickBook(MFBookInfo info) {
         if (info.isBuy) {
             MFUIMgr.Close<MFMainView>();
-            MFUIMgr.Open<MFBookView>();
+            MFBookView.Open(info.id);
         }
     }
 

@@ -60,9 +60,9 @@ public static class MFUIMgr {
 
     /// <summary>
     /// 打开UI UI还存活的直接显示，否则创建新的UI。
-    /// 最后会调用OnShow
+    /// action会在OnShow之前调用
     /// </summary>
-    public static void Open<T>() where T : MFUIBase {
+    public static void Open<T>(Action<T> action = null) where T : MFUIBase {
         Type uiScript = typeof(T);
         if (!IsBind<T>()) {
             MFLog.LogError("UI脚本没有绑定Prefab");
@@ -70,11 +70,11 @@ public static class MFUIMgr {
         }
 
         if (IsAlive<T>()) {
-            Show<T>();
+            Show<T>(action);
             return;
         }
 
-        CreateNewUI<T>();
+        CreateNewUI<T>(action);
     }
 
     /// <summary>
@@ -96,10 +96,14 @@ public static class MFUIMgr {
         }
     }
 
-    private static void Show<T>() where T : MFUIBase {
+    private static void Show<T>(Action<T> action = null) where T : MFUIBase {
         GameObject uiObj = _aliveUI[typeof(T)];
         uiObj.SetActive(true);
-        uiObj.GetComponent<T>().Invoke("OnShow", 0);
+        T comp = uiObj.GetComponent<T>();
+        if (action != null)
+            action(comp);
+
+        comp.Invoke("OnShow", 0);
     }
 
     private static bool IsBind<T>() where T : MFUIBase {
@@ -116,7 +120,7 @@ public static class MFUIMgr {
         return true;
     }
 
-    private static void CreateNewUI<T>() where T : MFUIBase {
+    private static void CreateNewUI<T>(Action<T> action = null) where T : MFUIBase {
         Type uiScript = typeof(T);
         UIBindInfo uiInfo = _uiInfobDic[uiScript];
         GameObject uiObj = GameObject.Instantiate(uiInfo.prefab);
@@ -131,7 +135,7 @@ public static class MFUIMgr {
 
         uiObj.transform.SetParent(parent, false);
         _aliveUI.Add(uiScript, uiObj);
-        Show<T>();
+        Show<T>(action);
     }
 
     /// <summary>

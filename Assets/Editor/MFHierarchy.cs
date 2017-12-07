@@ -28,7 +28,5 @@ public class MFHierarchy {
                 PrefabUtility.ReplacePrefab(obj, parentObject);
             }
         }
-            
     }
-
 }

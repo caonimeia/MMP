@@ -4,6 +4,13 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 public class MFBookView : MFUIBase {
+    public static void Open(int bookId) {
+        MFUIMgr.Open<MFBookView>((MFBookView instance) => {
+            MFLog.LogInfo(bookId);
+        });
+    }
+
+
     private MFBookViewBind uiBind;
     protected override void Awake() {
         base.Awake();
@@ -59,7 +66,7 @@ public class MFBookView : MFUIBase {
     }
 
     private void OnOpenRoomBtnClick() {
-        MFLog.LogInfo("OnOpenRoomBtnClick");
+        MFPrepareRoomView.Open(9527);
     }
 
     private void AddToggleListener() {
