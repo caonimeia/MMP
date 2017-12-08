@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameAgent : MonoBehaviour {
+    private MFNetManager _netMgr = MFNetManager.GetInstance();
     private void Awake() {
         MFUIMgr.Init();
-        GameObject.DontDestroyOnLoad(gameObject);
+        _netMgr.Init(new MFSocketClient("127.0.0.1", 2333));
+        DontDestroyOnLoad(gameObject);
     }
 
     // Use this for initialization
     private void Start() {
+        MFNetManager.GetInstance().Connect();
         MFUIMgr.Open<MFLoginView>();
     }
 
     // Update is called once per frame
     private void Update() {
+        MFNetManager.GetInstance().Update();
         MFTimer.Update();
     }
 
@@ -23,6 +27,6 @@ public class GameAgent : MonoBehaviour {
     }
 
     private void OnDestroy() {
-
+        MFNetManager.GetInstance().DisConnect();
     }
 }

@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 114059711247630772}
   - component: {fileID: 114710060580710960}
   m_Layer: 5
-  m_Name: PrepareRoom
+  m_Name: PrepareRoomView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -350,6 +350,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerListPanel: {fileID: 1160377955778734}
   playerInfoTemp: {fileID: 1278766735193394}
+  readyBtn: {fileID: 114545790533050608}
 --- !u!114 &114130119910220944
 MonoBehaviour:
   m_ObjectHideFlags: 1

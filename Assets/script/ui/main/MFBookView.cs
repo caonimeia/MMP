@@ -6,7 +6,7 @@ using UnityEngine.Assertions;
 public class MFBookView : MFUIBase {
     public static void Open(int bookId) {
         MFUIMgr.Open<MFBookView>((MFBookView instance) => {
-            MFLog.LogInfo(bookId);
+            //MFLog.LogInfo(bookId);
         });
     }
 

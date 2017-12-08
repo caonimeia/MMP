@@ -7,7 +7,8 @@ public class UIPrefabPath {
     public const string loginView = prePath + "login/LoginView";
     public const string mainView = prePath + "main/MainView";
     public const string bookView = prePath + "main/BookView";
-    public const string prepareRoomView = prePath + "room/PrepareRoom";
+    public const string prepareRoomView = prePath + "room/PrepareRoomView";
+    public const string gameRoomView = prePath + "room/GameRoomView";
 }
 
 public static class MFUIList {
@@ -16,5 +17,6 @@ public static class MFUIList {
         MFUIMgr.BindPrefab<MFMainView>(UIPrefabPath.mainView, UILayer.main, UIInstanceType.single);
         MFUIMgr.BindPrefab<MFBookView>(UIPrefabPath.bookView, UILayer.main, UIInstanceType.single);
         MFUIMgr.BindPrefab<MFPrepareRoomView>(UIPrefabPath.prepareRoomView, UILayer.main, UIInstanceType.single);
+        MFUIMgr.BindPrefab<MFGameRoomView>(UIPrefabPath.gameRoomView, UILayer.main, UIInstanceType.single);
     }
 }

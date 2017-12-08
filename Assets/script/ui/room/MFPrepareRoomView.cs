@@ -35,11 +35,18 @@ public class MFPrepareRoomView : MFUIBase {
 
     protected override void OnShow() {
         base.OnShow();
-
-        //MFLog.LogInfo(_roomId);
         GetPlayerInfoList();
     }
 
+    protected override void OnEnable() {
+        base.OnEnable();
+
+        uiBind.readyBtn.onClick.AddListener(OnReadyBtnClick);
+    }
+
+    private void OnReadyBtnClick() {
+        MFGameRoomView.Open();  
+    }
 
     private void GetPlayerInfoList() {
         MFRoomInfo info = new MFRoomInfo();
