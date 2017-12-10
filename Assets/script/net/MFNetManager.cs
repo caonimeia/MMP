@@ -35,8 +35,8 @@ class MFNetManager {
         _socketClient.DisConnect();
     }
 
-    public void Send(string msg) {
-        _socketClient.Send(msg);
+    public void Send(string data) {
+        _socketClient.Send(data);
     }
 
     public void Receive() {
@@ -47,9 +47,8 @@ class MFNetManager {
     }
 
     private void DispatchRespond(string data) {
-        //todo 在这里解析协议 调用对应的回调函数
-        ProtocolHeader ta = MFJsonSerialzator.DeSerialize<ProtocolHeader>(data);
-        MFLog.LogInfo(ta.protocolId);
+        ProtocolHeader ph = MFJsonSerialzator.DeSerialize<ProtocolHeader>(data);
+        MFServerAgent.InvokeRpcCallBack(ph.protocolId, data);
     }
 
     // Unity不允许在主线程之外访问GameObject和Unity的接口 所以加入一个队列 由主线程在Update中调用

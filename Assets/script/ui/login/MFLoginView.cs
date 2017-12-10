@@ -13,6 +13,8 @@ public class MFLoginView : MFUIBase {
         uiBind = GetComponent<MFLoginViewBind>();
         Assert.IsNotNull(uiBind);
         AddBtnListener();
+
+        MFServerAgent.RegisterRpcCallBack(MFProtocolDefine.test, OnQQLoginRespond);
     }
 
     private void AddBtnListener() {
@@ -22,10 +24,19 @@ public class MFLoginView : MFUIBase {
 
     private void OnQQLoginBtnClick() {
         StartCoroutine(LoadMainScene());
+
+        MFServerAgent.DoRequest(new TestARequest {
+            protocolId = MFProtocolDefine.test,
+            playerId = 10086,
+        });
     }
 
     private void OnWeChatLoginBtnClick() {
 
+    }
+
+    private void OnQQLoginRespond(string data) {
+        MFLog.LogInfo(data);
     }
 
     private IEnumerator LoadMainScene() {

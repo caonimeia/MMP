@@ -33,9 +33,6 @@ class MFSocketClient {
     public void DisConnect() {
         if (_socket != null) {
             _socket.Shutdown(SocketShutdown.Both); // 停止发送和接受数据
-            //if (_socket.Connected) {
-            //    _socket.Disconnect(false);
-            //}
             _socket.Close();
             _socket = null;
         }
