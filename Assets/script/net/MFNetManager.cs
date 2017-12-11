@@ -25,6 +25,10 @@ class MFNetManager {
 
     public void Init(MFSocketClient socketClient) {
         _socketClient = socketClient;
+
+        //todo 换个位置？
+        //MFServerAgent.InitProtocolList();
+        MFServerAgent.Init();
     }
 
     public void Connect() {
@@ -47,7 +51,7 @@ class MFNetManager {
     }
 
     private void DispatchRespond(string data) {
-        ProtocolHeader ph = MFJsonSerialzator.DeSerialize<ProtocolHeader>(data);
+        MFRespondProtocol ph = MFJsonSerialzator.DeSerialize<MFRespondProtocol>(data);
         MFServerAgent.InvokeRpcCallBack(ph.protocolId, data);
     }
 

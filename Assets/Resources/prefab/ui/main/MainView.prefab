@@ -623,7 +623,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1966453146205482
 GameObject:
   m_ObjectHideFlags: 1
@@ -1906,6 +1906,9 @@ MonoBehaviour:
   msgListContentView: {fileID: 1905938562486338}
   msgTemplate: {fileID: 1140846211866496}
   msgListToggle: {fileID: 114571496464709584}
+  playerAvatar: {fileID: 114430502598558538}
+  playerName: {fileID: 114458188170261626}
+  playerLevel: {fileID: 114601562580128142}
 --- !u!114 &114930785196034224
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -2,31 +2,51 @@
 using System.Collections.Generic;
 using UnityEngine.Assertions;
 
-public enum MFProtocolDefine {
+public enum MFProtocolId {
     none = -1,
     connect = 0,
-    test,
-    login,
+    qqLoginRequest, 
+    qqLoginRespond,
+
+    getPlayerBookListRequest,
+    getPlayerBookListRespond,
+
+    getBookBackStoryRequest,
+    getBookBackStoryRespond,
+
+    createRoomRequest,
+    createRoomRespond,
+
+    joinPrepareRoomRequest,
+    joinPrepareRoomRespond,
+
+    startGameRequest,
+    startGameRespond,
 }
 
 [Serializable]
-public class ProtocolHeader {
-    public MFProtocolDefine protocolId;
+public class MFRequestProtocol<T> {
+    public MFProtocolId protocolId;
+    public T data;
 }
 
 [Serializable]
-public class TestA {
-    public int a;
-    public int[] b;
+public class MFRespondProtocol {
+    public MFProtocolId protocolId;
+    public int result;
+    public string errMsg;
 }
 
 [Serializable]
-public class TestARequest : ProtocolHeader {
+public class MFQQLoginRequest {
     public int playerId;
 }
 
 [Serializable]
-public class TestARespond : ProtocolHeader {
-    public int a;
-    public int[] b;
+public class MFQQLoginRespond : MFRespondProtocol {
+    public int playerId;
+    public string playerName;
+    public int playerLevel;
+
+    public MFBook[] bookList;
 }

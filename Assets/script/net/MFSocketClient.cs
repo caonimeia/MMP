@@ -6,7 +6,6 @@ using System.Text;
 
 class MFSocketClient {
     private Socket _socket;
-    
     private readonly string _ip;
     private readonly int _port;
     public MFSocketClient(string ip, int port) {
@@ -86,8 +85,6 @@ class MFSocketClient {
         }
     }
 
-
-
     // 分包
     private void SubRecvData(ref string data, int dataLen) {
         data = data.Substring(0, dataLen);
@@ -103,7 +100,7 @@ class MFSocketClient {
             }, null);
         }
         catch (Exception e) {
-            //SFUtils.logWarning("Socket消息发送失败: " + e.Message);
+            MFLog.LogError(e.ToString());
         }
     }
 }

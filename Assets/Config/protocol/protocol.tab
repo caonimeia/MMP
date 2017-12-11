@@ -1,0 +1,5 @@
+#通讯协议配置表		
+id	name	#comment
+-1	none	
+0	connect	连接服务器
+1	qqlogin	QQ登录

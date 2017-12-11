@@ -13,4 +13,9 @@ public class MFMainViewBind : MonoBehaviour {
     public GameObject msgListContentView;
     public GameObject msgTemplate;
     public Toggle msgListToggle;
+
+    public Image playerAvatar;
+    public Text playerName;
+    public Text playerLevel;
+
 }

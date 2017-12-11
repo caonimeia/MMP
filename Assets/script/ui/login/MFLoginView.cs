@@ -14,7 +14,7 @@ public class MFLoginView : MFUIBase {
         Assert.IsNotNull(uiBind);
         AddBtnListener();
 
-        MFServerAgent.RegisterRpcCallBack(MFProtocolDefine.test, OnQQLoginRespond);
+        MFServerAgent.RegisterRpcCallBack<MFQQLoginRespond>(MFProtocolId.qqLoginRespond, OnQQLoginRespond);
     }
 
     private void AddBtnListener() {
@@ -23,28 +23,24 @@ public class MFLoginView : MFUIBase {
     }
 
     private void OnQQLoginBtnClick() {
-        StartCoroutine(LoadMainScene());
-
-        MFServerAgent.DoRequest(new TestARequest {
-            protocolId = MFProtocolDefine.test,
-            playerId = 10086,
-        });
+        MFServerAgent.DoQQLoginRequest(10086);
     }
 
     private void OnWeChatLoginBtnClick() {
 
     }
 
-    private void OnQQLoginRespond(string data) {
-        MFLog.LogInfo(data);
+    private void OnQQLoginRespond(MFQQLoginRespond data) {
+        MFPlayer player = new MFPlayer(data.playerId, data.playerName, data.playerLevel);
+        StartCoroutine(LoadMainScene(player));
     }
 
-    private IEnumerator LoadMainScene() {
+    private IEnumerator LoadMainScene(MFPlayer player) {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MainScene");
         while(!asyncLoad.isDone)
             yield return null;
 
         MFUIMgr.Close<MFLoginView>();
-        MFUIMgr.Open<MFMainView>();
+        MFMainView.Open(player);
     }
 }

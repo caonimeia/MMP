@@ -32,6 +32,14 @@ public class MFMainView : MFUIBase {
     private List<MFMsgInfo> msgInfoList;
     private List<GameObject> msgObjList;
 
+    private MFPlayer _player;
+
+    public static void Open(MFPlayer player) {
+        MFUIMgr.Open<MFMainView>( instance => {
+            instance._player = player;
+        });
+    }
+
     protected override void Awake() {
         base.Awake();
 
@@ -47,6 +55,12 @@ public class MFMainView : MFUIBase {
 
     protected override void Start() {
         base.Start();
+    }
+
+    protected override void OnShow() {
+        base.OnShow();
+
+        SetPlayerInfo();
     }
 
     protected override void OnEnable() {
@@ -191,5 +205,11 @@ public class MFMainView : MFUIBase {
         }
 
         return msgInfoList;
+    }
+
+
+    private void SetPlayerInfo() {
+        uiBind.playerName.text = _player.GetName();
+        uiBind.playerLevel.text = _player.GetLevel().ToString();
     }
 }

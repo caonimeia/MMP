@@ -6,10 +6,12 @@ using System.Reflection;
 using System.Text;
 
 public static class MFTabFileReader {
-    private const string REMARK_SIGN         = "#";          // 以 # 开头为注释 
-    private const char   SPLITTER_SIGN       = '\t';         // tab文件以'\t'作为分隔符
+    private const string REMARK_SIGN         = "#";                 // 以 # 开头为注释 
+    private const char   SPLITTER_SIGN       = '\t';                // tab文件以'\t'作为分隔符
+    private const string PRE_PATH            = "Assets/Config/";    // tab文件前置路径
 
     public static List<T> LoadTabFile<T>(string path, string primaryKey = null) {
+        path = string.Format("{0}/{1}", PRE_PATH, path);
         if (!File.Exists(path)) {
             MFLog.LogError("File {0} Not Found" + path);
             return null;

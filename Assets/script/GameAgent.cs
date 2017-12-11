@@ -7,6 +7,7 @@ public class GameAgent : MonoBehaviour {
     private void Awake() {
         MFUIMgr.Init();
         _netMgr.Init(new MFSocketClient("127.0.0.1", 2333));
+        //_netMgr.Init(new MFSocketClient("192.168.0.107", 8090));
         DontDestroyOnLoad(gameObject);
     }
 
