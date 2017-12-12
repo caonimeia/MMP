@@ -11,8 +11,8 @@ public enum MFProtocolId {
     getPlayerBookListRequest,
     getPlayerBookListRespond,
 
-    getBookBackStoryRequest,
-    getBookBackStoryRespond,
+    getBookDetailRequest,
+    getBookDetailRespond,
 
     createRoomRequest,
     createRoomRespond,
@@ -43,6 +43,8 @@ public class MFRespondProtocol<T> {
     public T data;
 }
 
+
+#region QQ登录
 [Serializable]
 public class MFQQLoginRequest {
     public int playerId;
@@ -53,3 +55,17 @@ public class MFQQLoginRespond {
     public MFPlayerInfo playerInfo;
     public MFBookInfo[] bookList;
 }
+#endregion
+
+#region 获取本子详细信息
+[Serializable]
+public class MFGetBookDetailRequest {
+    public int bookId;
+}
+
+[Serializable]
+public class MFGetBookDetailRespond {
+    public string backStory;
+    public string[] characterInfo;
+}
+#endregion

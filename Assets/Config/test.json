@@ -29,3 +29,15 @@
     	]
     }
 }
+
+//获取本子详细信息
+{
+    "header": {
+        "protocolId": 6,
+        "result": 0,
+        "errMsg": ""
+    },
+    "data": {
+        "backStory": "aaaa\n aaaa"
+    }
+}

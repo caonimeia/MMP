@@ -35,6 +35,10 @@ public class MFBook {
         _isBuy = info.isBuy;
     }
 
+    public int GetId() {
+        return _id;
+    }
+
     public bool CanOpen() {
         if (IsFree())
             return true;
@@ -44,5 +48,29 @@ public class MFBook {
 
     public bool IsFree() {
         return _price <= 0;
+    }
+
+    public void SetBackStory(string backStory) {
+        _backStory = backStory;
+    }
+
+    public string GetBackStory() {
+        return _backStory;
+    }
+
+    public string GetName() {
+        return _name;
+    }
+
+    public int GetPlayerCount() {
+        return _playerCount;
+    }
+
+    public float GetPrice() {
+        return _price;
+    }
+
+    public bool IsBuy() {
+        return _isBuy;
     }
 }

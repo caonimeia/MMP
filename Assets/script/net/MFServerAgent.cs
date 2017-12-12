@@ -18,6 +18,7 @@ public static class MFServerAgent {
 
     public static void Init() {
         respondCallBackDic.Add(MFProtocolId.qqLoginRespond, OnQQLoginRespond);
+        respondCallBackDic.Add(MFProtocolId.getBookDetailRespond, OnGetBookDetailRespond);
     }
 
     public static void RegisterRpcCallBack<T>(MFProtocolId protocolId, Action<MFRespondHeader, T> callBack) {
@@ -50,5 +51,22 @@ public static class MFServerAgent {
         MFRespondProtocol<MFQQLoginRespond> rp = MFJsonSerialzator.DeSerialize<MFRespondProtocol<MFQQLoginRespond>>(data);
         Messenger<MFRespondHeader, MFQQLoginRespond>.Broadcast(rp.header.protocolId.ToString(), rp.header, rp.data);
     }
+    #endregion
+
+    #region 获取本子背景故事
+    public static void DoGetBookDetailRequest(int bookId) {
+        DoRequest(new MFRequestProtocol<MFGetBookDetailRequest> {
+            protocolId = MFProtocolId.getBookDetailRequest,
+            data = new MFGetBookDetailRequest {
+                bookId = 1,
+            },
+        });
+    }
+
+    public static void OnGetBookDetailRespond(string data) {
+        MFRespondProtocol<MFGetBookDetailRespond> rp = MFJsonSerialzator.DeSerialize<MFRespondProtocol<MFGetBookDetailRespond>>(data);
+        Messenger<MFRespondHeader, MFGetBookDetailRespond>.Broadcast(rp.header.protocolId.ToString(), rp.header, rp.data);
+    }
+
     #endregion
 }

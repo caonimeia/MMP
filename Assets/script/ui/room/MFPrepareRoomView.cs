@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class MFRoomInfo {
     public int roomId;
-    public MFBookItemInfo bookInfo;
+    public MFBookItem bookInfo;
     public List<MFPlayerInfo> playerInfoList;
 }
 
@@ -48,7 +48,7 @@ public class MFPrepareRoomView : MFUIBase {
         info.roomId = 9527;
         info.playerInfoList = new List<MFPlayerInfo>();
         info.playerInfoList.Add(new MFPlayerInfo { name = "LLLL" });
-        info.bookInfo = new MFBookItemInfo {
+        info.bookInfo = new MFBookItem {
             name = "办公室杀人案",
             playerCount = 6,
         };
@@ -58,7 +58,7 @@ public class MFPrepareRoomView : MFUIBase {
     }
 
     public void OnGetRoomInfo(MFRoomInfo info) {
-        MFBookItemInfo bookInfo = info.bookInfo;
+        MFBookItem bookInfo = info.bookInfo;
         for(int i = 0; i < bookInfo.playerCount; i++) {
             GameObject bookInfoObj = Instantiate(uiBind.playerInfoTemp, uiBind.playerListPanel.transform, false);
             bookInfoObj.SetActive(true);

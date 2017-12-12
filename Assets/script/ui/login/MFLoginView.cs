@@ -33,18 +33,22 @@ public class MFLoginView : MFUIBase {
     private void OnQQLoginRespond(MFRespondHeader header, MFQQLoginRespond data) {
         if(header.result == 0) {
             MFPlayer player = new MFPlayer(data.playerInfo);
-            StartCoroutine(LoadMainScene(player));
+            List<MFBook> bookList = new List<MFBook>();
+            foreach(MFBookInfo bookInfo in data.bookList) {
+                bookList.Add(new MFBook(bookInfo));
+            }
+            StartCoroutine(LoadMainScene(player, bookList));
         } else {
             
         }
     }
 
-    private IEnumerator LoadMainScene(MFPlayer player) {
+    private IEnumerator LoadMainScene(MFPlayer player, List<MFBook> bookList) {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MainScene");
         while(!asyncLoad.isDone)
             yield return null;
 
         MFUIMgr.Close<MFLoginView>();
-        MFMainView.Open(player);
+        MFMainView.Open(player, bookList);
     }
 }

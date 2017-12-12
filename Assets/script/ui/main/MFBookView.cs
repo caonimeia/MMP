@@ -2,21 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 public class MFBookView : MFUIBase {
     public static void Open(int bookId) {
         MFUIMgr.Open<MFBookView>((MFBookView instance) => {
-            //MFLog.LogInfo(bookId);
+            instance._currBookId = bookId;
         });
     }
 
-
     private MFBookViewBind uiBind;
+    private int _currBookId;
     protected override void Awake() {
         base.Awake();
 
         uiBind = GetComponent<MFBookViewBind>();
         Assert.IsNotNull(uiBind);
+
+        MFServerAgent.RegisterRpcCallBack<MFGetBookDetailRespond>(MFProtocolId.getBookDetailRespond, OnGetBookDetailRespond);
     }
 
     protected override void Start() {
@@ -31,6 +34,12 @@ public class MFBookView : MFUIBase {
 
         uiBind.backStoryToggle.Select();
         uiBind.backStoryToggle.isOn = true;
+    }
+
+    protected override void OnShow() {
+        base.OnShow();
+
+        MFServerAgent.DoGetBookDetailRequest(_currBookId);
     }
 
     protected override void OnDisable() {
@@ -108,6 +117,13 @@ public class MFBookView : MFUIBase {
             uiBind.gameRulePanel.SetActive(false);
         } else {
             uiBind.characterInfoPanel.SetActive(false);
+        }
+    }
+
+
+    private void OnGetBookDetailRespond(MFRespondHeader header, MFGetBookDetailRespond data) {
+        if(header.result == 0) {
+            MFGameObjectUtil.Find<Text>(uiBind.backStoryPanel, "Content").text = data.backStory;
         }
     }
 }
