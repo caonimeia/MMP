@@ -20,8 +20,8 @@ public static class MFServerAgent {
         respondCallBackDic.Add(MFProtocolId.qqLoginRespond, OnQQLoginRespond);
     }
 
-    public static void RegisterRpcCallBack<T>(MFProtocolId protocolId, Action<T> callBack) {
-        Messenger<T>.AddListener(protocolId.ToString(), callBack);
+    public static void RegisterRpcCallBack<T>(MFProtocolId protocolId, Action<MFRespondHeader, T> callBack) {
+        Messenger<MFRespondHeader, T>.AddListener(protocolId.ToString(), callBack);
     }
 
     public static void InvokeRpcCallBack(MFProtocolId protocolId, string data) {
@@ -47,8 +47,8 @@ public static class MFServerAgent {
     }
 
     public static void OnQQLoginRespond(string data) {
-        MFQQLoginRespond taq = MFJsonSerialzator.DeSerialize<MFQQLoginRespond>(data);
-        Messenger<MFQQLoginRespond>.Broadcast(taq.protocolId.ToString(), taq);
+        MFRespondProtocol<MFQQLoginRespond> rp = MFJsonSerialzator.DeSerialize<MFRespondProtocol<MFQQLoginRespond>>(data);
+        Messenger<MFRespondHeader, MFQQLoginRespond>.Broadcast(rp.header.protocolId.ToString(), rp.header, rp.data);
     }
     #endregion
 }

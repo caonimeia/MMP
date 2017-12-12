@@ -31,10 +31,16 @@ public class MFRequestProtocol<T> {
 }
 
 [Serializable]
-public class MFRespondProtocol {
+public class MFRespondHeader {
     public MFProtocolId protocolId;
     public int result;
     public string errMsg;
+}
+
+[Serializable]
+public class MFRespondProtocol<T> {
+    public MFRespondHeader header;
+    public T data;
 }
 
 [Serializable]
@@ -43,10 +49,7 @@ public class MFQQLoginRequest {
 }
 
 [Serializable]
-public class MFQQLoginRespond : MFRespondProtocol {
-    public int playerId;
-    public string playerName;
-    public int playerLevel;
-
-    public MFBook[] bookList;
+public class MFQQLoginRespond {
+    public MFPlayerInfo playerInfo;
+    public MFBookInfo[] bookList;
 }

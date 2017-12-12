@@ -1,6 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+
+[Serializable]
+public struct MFBookInfo {
+    public int id;
+    public string name;
+    public int playerCount;
+    public float price;
+    public bool isBuy;
+}
 
 public class MFBook {
     private int _id;
@@ -14,6 +25,14 @@ public class MFBook {
         _id = id;
         _name = name;
         _playerCount = playerCount;
+    }
+
+    public MFBook(MFBookInfo info) {
+        _id = info.id;
+        _name = info.name;
+        _playerCount = info.playerCount;
+        _price = info.price;
+        _isBuy = info.isBuy;
     }
 
     public bool CanOpen() {

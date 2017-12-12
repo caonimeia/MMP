@@ -5,13 +5,13 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
-public class MFBookInfo {
+public class MFBookItemInfo {
     public int id;
     public string name;
     public int playerCount;
     public float price;
     public bool isBuy;
-    public Action<MFBookInfo> action;
+    public Action<MFBookItemInfo> action;
 
     public void OnAction() {
         if (action != null)
@@ -26,7 +26,7 @@ public class MFMsgInfo {
 
 public class MFMainView : MFUIBase {
     private MFMainViewBind uiBind;
-    private List<MFBookInfo> bookInfoList;
+    private List<MFBookItemInfo> bookInfoList;
     private List<GameObject> bookObjList;
 
     private List<MFMsgInfo> msgInfoList;
@@ -46,7 +46,7 @@ public class MFMainView : MFUIBase {
         uiBind = GetComponent<MFMainViewBind>();
         Assert.IsNotNull(uiBind);
 
-        bookInfoList = new List<MFBookInfo>();
+        bookInfoList = new List<MFBookItemInfo>();
         bookObjList = new List<GameObject>();
 
         msgInfoList = new List<MFMsgInfo>();
@@ -111,8 +111,8 @@ public class MFMainView : MFUIBase {
         }
         bookObjList.Clear();
 
-        List<MFBookInfo> list = GetBookList();
-        using(List<MFBookInfo>.Enumerator itor = list.GetEnumerator()) {
+        List<MFBookItemInfo> list = GetBookList();
+        using(List<MFBookItemInfo>.Enumerator itor = list.GetEnumerator()) {
             while (itor.MoveNext()) {
                 GameObject bookInfoObj = Instantiate(uiBind.bookTemplate, uiBind.bookListContentView.transform, false);
                 bookInfoObj.SetActive(true);
@@ -138,17 +138,17 @@ public class MFMainView : MFUIBase {
         }
     }
 
-    private void OnClickBook(MFBookInfo info) {
+    private void OnClickBook(MFBookItemInfo info) {
         if (info.isBuy) {
             MFUIMgr.Close<MFMainView>();
             MFBookView.Open(info.id);
         }
     }
 
-    private List<MFBookInfo> GetBookList() {
+    private List<MFBookItemInfo> GetBookList() {
         bookInfoList.Clear();
         for (int i = 0; i < 5; i++) {
-            MFBookInfo info = new MFBookInfo {
+            MFBookItemInfo info = new MFBookItemInfo {
                 id = i,
                 name = "办公室杀人案" + (i + 1),
                 playerCount = 4,
@@ -158,7 +158,7 @@ public class MFMainView : MFUIBase {
             bookInfoList.Add(info);
         }
 
-        MFBookInfo info2 = new MFBookInfo {
+        MFBookItemInfo info2 = new MFBookItemInfo {
             id = 5,
             name = "办公室超级杀人案",
             playerCount = 4,

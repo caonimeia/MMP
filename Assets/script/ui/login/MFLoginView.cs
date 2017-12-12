@@ -30,9 +30,13 @@ public class MFLoginView : MFUIBase {
 
     }
 
-    private void OnQQLoginRespond(MFQQLoginRespond data) {
-        MFPlayer player = new MFPlayer(data.playerId, data.playerName, data.playerLevel);
-        StartCoroutine(LoadMainScene(player));
+    private void OnQQLoginRespond(MFRespondHeader header, MFQQLoginRespond data) {
+        if(header.result == 0) {
+            MFPlayer player = new MFPlayer(data.playerInfo);
+            StartCoroutine(LoadMainScene(player));
+        } else {
+            
+        }
     }
 
     private IEnumerator LoadMainScene(MFPlayer player) {
