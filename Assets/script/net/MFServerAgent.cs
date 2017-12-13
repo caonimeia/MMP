@@ -19,6 +19,7 @@ public static class MFServerAgent {
     public static void Init() {
         respondCallBackDic.Add(MFProtocolId.qqLoginRespond, OnQQLoginRespond);
         respondCallBackDic.Add(MFProtocolId.getBookDetailRespond, OnGetBookDetailRespond);
+        respondCallBackDic.Add(MFProtocolId.createRoomRespond, OnCreateRoomRespond);
     }
 
     public static void RegisterRpcCallBack<T>(MFProtocolId protocolId, Action<MFRespondHeader, T> callBack) {
@@ -40,9 +41,11 @@ public static class MFServerAgent {
     #region QQ登录
     public static void DoQQLoginRequest(int playerId) {
         DoRequest(new MFRequestProtocol<MFQQLoginRequest> {
-            protocolId = MFProtocolId.qqLoginRequest,
+            header = new MFRequestHeader {
+                protocolId = MFProtocolId.qqLoginRequest,
+            },
             data = new MFQQLoginRequest {
-                playerId = 10000,
+                playerId = playerId,
             },
         });
     }
@@ -56,9 +59,11 @@ public static class MFServerAgent {
     #region 获取本子背景故事
     public static void DoGetBookDetailRequest(int bookId) {
         DoRequest(new MFRequestProtocol<MFGetBookDetailRequest> {
-            protocolId = MFProtocolId.getBookDetailRequest,
+            header = new MFRequestHeader {
+                protocolId = MFProtocolId.getBookDetailRequest,
+            },
             data = new MFGetBookDetailRequest {
-                bookId = 1,
+                bookId = bookId,
             },
         });
     }
@@ -67,6 +72,24 @@ public static class MFServerAgent {
         MFRespondProtocol<MFGetBookDetailRespond> rp = MFJsonSerialzator.DeSerialize<MFRespondProtocol<MFGetBookDetailRespond>>(data);
         Messenger<MFRespondHeader, MFGetBookDetailRespond>.Broadcast(rp.header.protocolId.ToString(), rp.header, rp.data);
     }
+    #endregion
 
+    #region 创建房间
+    public static void DoCreateRoomRequest(int playerId, int bookId) {
+        DoRequest(new MFRequestProtocol<MFCreateRoomRequest> {
+            header = new MFRequestHeader {
+                protocolId = MFProtocolId.createRoomRequest,
+            },
+            data = new MFCreateRoomRequest {
+                playerId = playerId,
+                bookId = bookId,
+            },
+        });
+    }
+
+    public static void OnCreateRoomRespond(string data) {
+        MFRespondProtocol<MFCreateRoomRespond> rp = MFJsonSerialzator.DeSerialize<MFRespondProtocol<MFCreateRoomRespond>>(data);
+        MFUIMgr.GetUiInstance<MFBookView>().OnCreateRoomRespond(rp.header, rp.data);
+    }
     #endregion
 }

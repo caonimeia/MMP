@@ -157,4 +157,17 @@ public static class MFUIMgr {
 
         _uiInfobDic.Add(uiScript, info);
     }
+
+    /// <summary>
+    /// 获取UI脚本实例
+    /// </summary>
+    public static T GetUiInstance<T>() where T : MFUIBase {
+        Type uiScript = typeof(T);
+        if (!IsAlive<T>()) {
+            return null;
+        }
+
+        GameObject uiObj = _aliveUI[typeof(T)];
+        return uiObj.GetComponent<T>();
+    }
 }

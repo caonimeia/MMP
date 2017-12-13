@@ -25,8 +25,13 @@ public enum MFProtocolId {
 }
 
 [Serializable]
-public class MFRequestProtocol<T> {
+public class MFRequestHeader {
     public MFProtocolId protocolId;
+}
+
+[Serializable]
+public class MFRequestProtocol<T> {
+    public MFRequestHeader header;
     public T data;
 }
 
@@ -67,5 +72,20 @@ public class MFGetBookDetailRequest {
 public class MFGetBookDetailRespond {
     public string backStory;
     public string[] characterInfo;
+}
+#endregion
+
+#region 创建房间
+[Serializable]
+public class MFCreateRoomRequest {
+    public int playerId;
+    public int bookId;
+}
+
+[Serializable]
+public class MFCreateRoomRespond {
+    public int roomId;
+    public MFBookInfo bookInfo;
+    public List<MFPlayerInfo> playerList;
 }
 #endregion

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class MFBookView : MFUIBase {
     public static void Open(int bookId) {
-        MFUIMgr.Open<MFBookView>((MFBookView instance) => {
+        MFUIMgr.Open<MFBookView>( instance => {
             instance._currBookId = bookId;
         });
     }
@@ -70,12 +70,14 @@ public class MFBookView : MFUIBase {
         uiBind.openRoomBtn.onClick.RemoveListener(OnOpenRoomBtnClick);
     }
 
+    // 预约房间
     private void OnReserverRoomBtnClick() {
         MFLog.LogInfo("OnReserverRoomBtnClick");
     }
 
+    // 立即开房
     private void OnOpenRoomBtnClick() {
-        MFPrepareRoomView.Open(9527);
+        MFServerAgent.DoCreateRoomRequest(1, 1);
     }
 
     private void AddToggleListener() {
@@ -121,9 +123,19 @@ public class MFBookView : MFUIBase {
     }
 
 
+    #region 服务器响应
+    // 获取本子详细
     private void OnGetBookDetailRespond(MFRespondHeader header, MFGetBookDetailRespond data) {
         if(header.result == 0) {
             MFGameObjectUtil.Find<Text>(uiBind.backStoryPanel, "Content").text = data.backStory;
         }
     }
+
+    // 创建房间
+    public void OnCreateRoomRespond(MFRespondHeader header, MFCreateRoomRespond data) {
+        if(header.result == 0) {
+            MFPrepareRoomView.Open(data.roomId, data.bookInfo, data.playerList);
+        }
+    }
+    #endregion
 }

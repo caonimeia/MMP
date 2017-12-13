@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 222774374146099074}
   - component: {fileID: 114316797252478978}
   m_Layer: 5
-  m_Name: RoomNumber
+  m_Name: RoomName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -243,7 +243,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224823649185990366}
   m_Layer: 5
-  m_Name: RoomName
+  m_Name: RoomInfo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -348,6 +348,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c043fd98be7ed84aa119716ca992ef1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomName: {fileID: 114316797252478978}
   playerListPanel: {fileID: 1160377955778734}
   playerInfoTemp: {fileID: 1278766735193394}
   readyBtn: {fileID: 114545790533050608}

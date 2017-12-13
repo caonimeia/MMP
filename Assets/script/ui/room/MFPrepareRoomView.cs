@@ -14,6 +14,8 @@ public class MFPrepareRoomView : MFUIBase {
     private int _roomId;
     private MFPrepareRoomBind uiBind;
     private MFRoomInfo _roomInfo;
+    private List<MFPlayerInfo> _playerInfoList;
+    private MFBookInfo _bookInfo;
 
     protected override void Awake() {
         base.Awake();
@@ -22,15 +24,19 @@ public class MFPrepareRoomView : MFUIBase {
         Assert.IsNotNull(uiBind);
     }
 
-    public static void Open(int roomId) {
-        MFUIMgr.Open<MFPrepareRoomView>((MFPrepareRoomView inst) => {
-            inst._roomId = roomId;
+    public static void Open(int roomId, MFBookInfo bookInfo, List<MFPlayerInfo> playerInfoList) {
+        MFUIMgr.Open<MFPrepareRoomView>(instance => {
+            instance._roomId = roomId;
+            instance._playerInfoList = playerInfoList;
+            instance._bookInfo = bookInfo;
         });
     }
 
     protected override void OnShow() {
         base.OnShow();
-        GetPlayerInfoList();
+
+        SetRoomInfo();
+        InitRoomPlayerInfo();
     }
 
     protected override void OnEnable() {
@@ -43,27 +49,16 @@ public class MFPrepareRoomView : MFUIBase {
         MFGameRoomView.Open();  
     }
 
-    private void GetPlayerInfoList() {
-        MFRoomInfo info = new MFRoomInfo();
-        info.roomId = 9527;
-        info.playerInfoList = new List<MFPlayerInfo>();
-        info.playerInfoList.Add(new MFPlayerInfo { name = "LLLL" });
-        info.bookInfo = new MFBookItem {
-            name = "办公室杀人案",
-            playerCount = 6,
-        };
-
-        _roomInfo = info;
-        OnGetRoomInfo(info);
+    private void SetRoomInfo() {
+        uiBind.roomName.text = string.Format("房号 {0}", _roomId);
     }
 
-    public void OnGetRoomInfo(MFRoomInfo info) {
-        MFBookItem bookInfo = info.bookInfo;
-        for(int i = 0; i < bookInfo.playerCount; i++) {
+    private void InitRoomPlayerInfo() {
+        for(int i = 0; i < _bookInfo.playerCount; i++) {
             GameObject bookInfoObj = Instantiate(uiBind.playerInfoTemp, uiBind.playerListPanel.transform, false);
             bookInfoObj.SetActive(true);
-            if (i < info.playerInfoList.Count) {
-                MFGameObjectUtil.Find<Text>(bookInfoObj, "Name").text = info.playerInfoList[i].name;
+            if (i < _playerInfoList.Count) {
+                MFGameObjectUtil.Find<Text>(bookInfoObj, "Name").text = _playerInfoList[i].name;
             } else {
                 MFGameObjectUtil.Find(bookInfoObj, "Button").GetComponent<Image>().sprite = Resources.Load("texture/add2", typeof(Sprite)) as Sprite;
             }

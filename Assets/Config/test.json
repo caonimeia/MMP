@@ -1,3 +1,13 @@
+// 登录请求
+{
+	"header":{
+		"protocolId": 1
+	},
+    "data":{
+		"playerId" : 10086
+    }
+}
+
 // 登录响应
 {
 	"header":{
@@ -30,7 +40,17 @@
     }
 }
 
-//获取本子详细信息
+//获取本子详细信息请求
+{
+    "header": {
+        "protocolId": 5
+    },
+    "data": {
+        "bookId": 1
+    }
+}
+
+//获取本子详细信息响应
 {
     "header": {
         "protocolId": 6,
@@ -39,5 +59,42 @@
     },
     "data": {
         "backStory": "aaaa\n aaaa"
+    }
+}
+
+//创建房间请求
+{
+    "header": {
+        "protocolId": 7
+    },
+    "data": {
+		"playerId" : 1,
+        "bookId": 1
+    }
+}
+
+//创建房间响应
+{
+    "header": {
+        "protocolId": 8,
+        "result": 0,
+        "errMsg": ""
+    },
+    "data": {
+        "roomId": 10086,
+		"bookInfo":{
+	    	"id": 1,
+		    "name": "bangongshi",
+		    "playerCount": 4,
+		    "price" : 0.0,
+		    "isBuy" : true
+		},
+		"playerList":[[
+			{
+	    		"id": 1,
+	    		"name": "caonimeia",
+	    		"level" : 10
+    		}
+		]
     }
 }

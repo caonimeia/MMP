@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MFPrepareRoomBind : MonoBehaviour {
+    public Text roomName;
+
     public GameObject playerListPanel;
     public GameObject playerInfoTemp;
 
