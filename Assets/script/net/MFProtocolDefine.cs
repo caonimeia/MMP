@@ -8,8 +8,8 @@ public enum MFProtocolId {
     qqLoginRequest, 
     qqLoginRespond,
 
-    heartbeatRespond,
-    heartbeatRequest,
+    getPlayerBookListRequest,
+    getPlayerBookListRespond,
 
     getBookDetailRequest,
     getBookDetailRespond,

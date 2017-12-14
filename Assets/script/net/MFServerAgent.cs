@@ -17,7 +17,6 @@ public static class MFServerAgent {
     }
 
     public static void Init() {
-        respondCallBackDic.Add(MFProtocolId.heartbeatRespond, OnHeartBeatRespond);
         respondCallBackDic.Add(MFProtocolId.qqLoginRespond, OnQQLoginRespond);
         respondCallBackDic.Add(MFProtocolId.getBookDetailRespond, OnGetBookDetailRespond);
         respondCallBackDic.Add(MFProtocolId.createRoomRespond, OnCreateRoomRespond);
@@ -38,12 +37,6 @@ public static class MFServerAgent {
         string data = MFJsonSerialzator.Serialize(arg);
         MFNetManager.GetInstance().Send(data);
     }
-
-    #region 心跳包
-    private static void OnHeartBeatRespond(string data) {
-        MFLog.LogInfo("heartbeat");
-    }
-    #endregion
 
     #region QQ登录
     public static void DoQQLoginRequest(int playerId) {

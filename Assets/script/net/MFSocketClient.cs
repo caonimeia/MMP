@@ -53,7 +53,7 @@ class MFSocketClient {
 
     public void Receive() {
         if (_socket == null || !_socket.Connected) return;
-        byte[] data = new byte[_socket.ReceiveBufferSize];
+        var data = new byte[_socket.ReceiveBufferSize];
         _socket.BeginReceive(data, 0, data.Length, SocketFlags.None, ReceiveCallBack, data);
     }
 
@@ -62,11 +62,12 @@ class MFSocketClient {
             return;
 
         try {
-            byte[] data = (byte[])ar.AsyncState;
-            int length = _socket.EndReceive(ar);
-            
+            var data = (byte[])ar.AsyncState;
+            var length = _socket.EndReceive(ar);
+            //m_totalRecv += length;
+
             if (length > 0) {
-                string str = Encoding.UTF8.GetString(data, 4, data.Length - 4);
+                var str = Encoding.UTF8.GetString(data);
                 SubRecvData(ref str, length);
                 MFNetManager.GetInstance().PushRecvData(str);
                 // go on
@@ -101,43 +102,5 @@ class MFSocketClient {
         catch (Exception e) {
             MFLog.LogError(e.ToString());
         }
-    }
-
-    public static string byteToHexStr(byte[] bytes) {
-        string returnStr = "";
-        if (bytes != null) {
-            for (int i = 0; i < bytes.Length; i++) {
-                returnStr += bytes[i].ToString("X2");
-            }
-        }
-
-        return returnStr;
-    }
-
-    public static string UnHex(string hex, string charset) {
-        if (hex == null)
-            throw new ArgumentNullException("hex");
-        hex = hex.Replace(",", "");
-        hex = hex.Replace("\n", "");
-        hex = hex.Replace("\\", "");
-        hex = hex.Replace(" ", "");
-        if (hex.Length % 2 != 0) {
-            hex += "20";//空格 
-        }
-        // 需要将 hex 转换成 byte 数组。 
-        byte[] bytes = new byte[hex.Length / 2];
-        for (int i = 0; i < bytes.Length; i++) {
-            try {
-                // 每两个字符是一个 byte。 
-                bytes[i] = byte.Parse(hex.Substring(i * 2, 2),
-                System.Globalization.NumberStyles.HexNumber);
-            }
-            catch {
-                // Rethrow an exception with custom message. 
-                throw new ArgumentException("hex is not a valid hex number!", "hex");
-            }
-        }
-        System.Text.Encoding chs = System.Text.Encoding.GetEncoding(charset);
-        return chs.GetString(bytes);
     }
 }

@@ -37,7 +37,6 @@ public class MFPrepareRoomView : MFUIBase {
 
         SetRoomInfo();
         InitRoomPlayerInfo();
-        MFAgoraMgr.JoinChannel("9527");
     }
 
     protected override void OnEnable() {
