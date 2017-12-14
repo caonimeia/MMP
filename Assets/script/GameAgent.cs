@@ -5,12 +5,19 @@ using UnityEngine;
 public class GameAgent : MonoBehaviour {
     public bool debug = true;
     private MFNetManager _netMgr = MFNetManager.GetInstance();
+
     private void Awake() {
         MFUIMgr.Init();
-        if(debug)
+        
+#if UNITY_EDITOR
+        if (debug)
             _netMgr.Init(new MFSocketClient("127.0.0.1", 8090));
         else
             _netMgr.Init(new MFSocketClient("192.168.0.107", 8090));
+#else
+        _netMgr.Init(new MFSocketClient("10.0.2.2", 8090));
+        MFAgoraMgr.Init();
+#endif
 
         DontDestroyOnLoad(gameObject);
     }

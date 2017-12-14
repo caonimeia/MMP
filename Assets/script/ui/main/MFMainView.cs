@@ -60,6 +60,7 @@ public class MFMainView : MFUIBase {
 
     protected override void Start() {
         base.Start();
+        MFAgoraMgr.JoinChannel("9527");
     }
 
     protected override void OnShow() {

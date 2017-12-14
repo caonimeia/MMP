@@ -1,0 +1,53 @@
+buildscript {
+	repositories {
+		jcenter()
+	}
+
+	dependencies {
+		classpath 'com.android.tools.build:gradle:2.1.0'
+	}
+}
+
+allprojects {
+repositories {
+	jcenter()
+}
+}
+
+apply plugin: 'com.android.application'
+
+dependencies {
+	compile project(':AgoraAudioKit.plugin')
+	compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion '27.0.1'
+
+    defaultConfig {
+    	minSdkVersion 19
+        targetSdkVersion 21
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['src/main/jniLibs', 'AgoraAudioKit.plugin/libs', 'IMLib/libs']
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+	buildTypes {
+		debug {
+			jniDebuggable true
+		}
+		release {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-unity.txt'
+		}
+	}
+
+}

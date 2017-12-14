@@ -9,6 +9,7 @@ class MFSocketClient {
     private readonly string _ip;
     private readonly int _port;
     public MFSocketClient(string ip, int port) {
+        MFLog.LogInfo("ip", ip);
         _ip = ip;
         _port = port;
     }
