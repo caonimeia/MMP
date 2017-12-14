@@ -33,6 +33,7 @@ public class MFLoginView : MFUIBase {
     private void OnQQLoginRespond(MFRespondHeader header, MFQQLoginRespond data) {
         if(header.result == 0) {
             MFPlayer player = new MFPlayer(data.playerInfo);
+            GameAgent.curPlayer = player;
             List<MFBook> bookList = new List<MFBook>();
             foreach(MFBookInfo bookInfo in data.bookList) {
                 bookList.Add(new MFBook(bookInfo));

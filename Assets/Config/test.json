@@ -9,7 +9,7 @@
 }
 
 // 登录响应
-{
+    {
 	"header":{
 		"protocolId": 2,
     	"result": 0,
@@ -27,14 +27,14 @@
 		    	"name": "bangongshi",
 		    	"playerCount": 4,
 		    	"price" : 0.0,
-		    	"isBuy" : true
+		    	"buy" : true
     		},	
     		{
 	    		"id": 2,
 		    	"name": "bangongshi2",
 		    	"playerCount": 6,
 		    	"price" : 12.5,
-		    	"isBuy" : false
+		    	"buy" : false
     		}
     	]
     }
@@ -82,6 +82,7 @@
     },
     "data": {
         "roomId": 10086,
+		"roomMasterId": 1,
 		"bookInfo":{
 	    	"id": 1,
 		    "name": "bangongshi",
@@ -97,4 +98,26 @@
     		}
 		]
     }
+}
+
+
+//玩家准备请求
+{
+    "header": {
+        "protocolId": 13
+    },
+    "data": {
+		"playerId" : 1,
+        "roomId": 1
+    }
+}
+
+//玩家准备相应
+{
+    "header": {
+        "protocolId": 14,
+        "result": 0,
+        "errMsg": ""
+    },
+    "data": {}
 }

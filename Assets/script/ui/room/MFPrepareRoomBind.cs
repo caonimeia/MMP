@@ -10,4 +10,5 @@ public class MFPrepareRoomBind : MonoBehaviour {
     public GameObject playerInfoTemp;
 
     public Button readyBtn;
+    public Button startBtn;
 }

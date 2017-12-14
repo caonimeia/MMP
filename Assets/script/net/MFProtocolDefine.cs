@@ -22,6 +22,9 @@ public enum MFProtocolId {
 
     startGameRequest,
     startGameRespond,
+
+    readyToStartRequest,
+    readyToStartRespond,
 }
 
 [Serializable]
@@ -85,7 +88,21 @@ public class MFCreateRoomRequest {
 [Serializable]
 public class MFCreateRoomRespond {
     public int roomId;
+    public int roomMasterId;
     public MFBookInfo bookInfo;
     public List<MFPlayerInfo> playerList;
+}
+#endregion
+
+#region 玩家准备
+[Serializable]
+public class MFReadyToStartRequest {
+    public int roomId;
+    public int playerId;
+}
+
+[Serializable]
+public class MFReadyToStartRespond {
+
 }
 #endregion

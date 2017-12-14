@@ -34,4 +34,8 @@ public class MFPlayer {
     public int GetLevel() {
         return _level;
     }
+
+    public int GetId() {
+        return _id;
+    }
 }

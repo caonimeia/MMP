@@ -21,6 +21,8 @@ public static class MFServerAgent {
         respondCallBackDic.Add(MFProtocolId.qqLoginRespond, OnQQLoginRespond);
         respondCallBackDic.Add(MFProtocolId.getBookDetailRespond, OnGetBookDetailRespond);
         respondCallBackDic.Add(MFProtocolId.createRoomRespond, OnCreateRoomRespond);
+        respondCallBackDic.Add(MFProtocolId.readyToStartRespond, OnReadyToStartRespond);
+        
     }
 
     public static void RegisterRpcCallBack<T>(MFProtocolId protocolId, Action<MFRespondHeader, T> callBack) {
@@ -97,6 +99,25 @@ public static class MFServerAgent {
     public static void OnCreateRoomRespond(string data) {
         MFRespondProtocol<MFCreateRoomRespond> rp = MFJsonSerialzator.DeSerialize<MFRespondProtocol<MFCreateRoomRespond>>(data);
         MFUIMgr.GetUiInstance<MFBookView>().OnCreateRoomRespond(rp.header, rp.data);
+    }
+    #endregion
+
+    #region 玩家准备
+    public static void DoReadyToStartRequest(int roomId, int playerId) {
+        DoRequest(new MFRequestProtocol<MFReadyToStartRequest> {
+            header = new MFRequestHeader {
+                protocolId = MFProtocolId.readyToStartRequest,
+            },
+            data = new MFReadyToStartRequest {
+                roomId = roomId,
+                playerId = playerId,
+            },
+        });
+    }
+
+    public static void OnReadyToStartRespond(string data) {
+        MFRespondProtocol<MFReadyToStartRespond> rp = MFJsonSerialzator.DeSerialize<MFRespondProtocol<MFReadyToStartRespond>>(data);
+        MFUIMgr.GetUiInstance<MFPrepareRoomView>().OnReadyToStartRespond(rp.header, rp.data);
     }
     #endregion
 }

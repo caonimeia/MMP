@@ -134,7 +134,7 @@ public class MFBookView : MFUIBase {
     // 创建房间
     public void OnCreateRoomRespond(MFRespondHeader header, MFCreateRoomRespond data) {
         if(header.result == 0) {
-            MFPrepareRoomView.Open(data.roomId, data.bookInfo, data.playerList);
+            MFPrepareRoomView.Open(data.roomId, data.roomMasterId, data.bookInfo, data.playerList);
         }
     }
     #endregion
