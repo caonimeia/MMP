@@ -9,6 +9,7 @@ public class UIPrefabPath {
     public const string BOOK_VIEW = PRE_PATH + "main/BookView";
     public const string PREPARE_ROOM_VIEW = PRE_PATH + "room/PrepareRoomView";
     public const string GAME_ROOM_VIEW = PRE_PATH + "room/GameRoomView";
+    public const string AGORA_TEST_VIEW = PRE_PATH + "test/AgoraTestView";
 }
 
 public static class MFUIList {
@@ -18,5 +19,6 @@ public static class MFUIList {
         MFUIMgr.BindPrefab<MFBookView>(UIPrefabPath.BOOK_VIEW, UILayer.main, UIInstanceType.single);
         MFUIMgr.BindPrefab<MFPrepareRoomView>(UIPrefabPath.PREPARE_ROOM_VIEW, UILayer.main, UIInstanceType.single);
         MFUIMgr.BindPrefab<MFGameRoomView>(UIPrefabPath.GAME_ROOM_VIEW, UILayer.main, UIInstanceType.single);
+        MFUIMgr.BindPrefab<MFAgoraTestView>(UIPrefabPath.AGORA_TEST_VIEW, UILayer.main, UIInstanceType.single);
     }
 }

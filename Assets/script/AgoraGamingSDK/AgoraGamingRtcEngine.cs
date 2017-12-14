@@ -1204,6 +1204,10 @@ namespace agora_gaming_rtc
 			return instance;
 		}
 
-		private static IRtcEngineForGaming instance = null;
+        internal void MuteLocalAudioStream(object localMute) {
+            throw new NotImplementedException();
+        }
+
+        private static IRtcEngineForGaming instance = null;
 	}
 }

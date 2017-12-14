@@ -39,9 +39,6 @@ public class MFMainView : MFUIBase {
         MFUIMgr.Open<MFMainView>( instance => {
             instance._player = player;
             instance._bookList = bookList;
-
-            instance.SetPlayerInfo();
-            instance.InitBookItemList(bookList);
         });
     }
 
@@ -56,6 +53,14 @@ public class MFMainView : MFUIBase {
 
         msgInfoList = new List<MFMsgInfo>();
         msgObjList = new List<GameObject>();
+
+        if (MFApplicationUtil.IsOpenDebug()) {
+            uiBind.testEntrance.gameObject.SetActive(true);
+            uiBind.testEntrance.onClick.AddListener(() => {
+                MFUIMgr.Close<MFMainView>();
+                MFUIMgr.Open<MFAgoraTestView>();
+            });
+        }
     }
 
     protected override void Start() {
@@ -65,6 +70,9 @@ public class MFMainView : MFUIBase {
 
     protected override void OnShow() {
         base.OnShow();
+
+        SetPlayerInfo();
+        InitBookItemList(_bookList);
     }
 
     protected override void OnEnable() {

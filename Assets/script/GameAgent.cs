@@ -19,6 +19,8 @@ public class GameAgent : MonoBehaviour {
         MFAgoraMgr.Init();
 #endif
 
+        MFApplicationUtil.SetDebugMode(debug);
+
         DontDestroyOnLoad(gameObject);
     }
 

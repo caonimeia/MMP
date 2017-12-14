@@ -18,4 +18,5 @@ public class MFMainViewBind : MonoBehaviour {
     public Text playerName;
     public Text playerLevel;
 
+    public Button testEntrance;
 }
