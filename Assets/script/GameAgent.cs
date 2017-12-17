@@ -19,7 +19,7 @@ public class GameAgent : MonoBehaviour {
         if (debug)
             _netMgr.Init(new MFSocketClient("10.0.2.2", 8090));
         else
-            _netMgr.Init(new MFSocketClient("192.168.0.107", 8090));
+            _netMgr.Init(new MFSocketClient("192.168.0.101", 8090));
 
         MFAgoraMgr.Init();
 #endif

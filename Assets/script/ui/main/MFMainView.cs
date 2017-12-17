@@ -54,13 +54,13 @@ public class MFMainView : MFUIBase {
         msgInfoList = new List<MFMsgInfo>();
         msgObjList = new List<GameObject>();
 
-        if (MFApplicationUtil.IsOpenDebug()) {
+        //if (MFApplicationUtil.IsOpenDebug()) {
             uiBind.testEntrance.gameObject.SetActive(true);
             uiBind.testEntrance.onClick.AddListener(() => {
                 MFUIMgr.Close<MFMainView>();
                 MFUIMgr.Open<MFAgoraTestView>();
             });
-        }
+        //}
     }
 
     protected override void Start() {

@@ -11,4 +11,5 @@ public class MFAgoraTestBind : MonoBehaviour {
     public Button SetEnableSpeakerphone;
     public Button MuteLocalAudioStream;
     public Button MuteAllRemoteAudioStreams;
+    public MFButton PressToSpeak;
 }

@@ -37,4 +37,16 @@ public static class MFAgoraMgr {
     private static void LoadEngineCallbacks() {
         mRtcEngine.OnJoinChannelSuccess += EngineOnJoinChannelSuccess;
     }
+
+    private static void MuteLocal(bool mute) {
+        mRtcEngine.MuteLocalAudioStream(mute);
+    }
+
+    public static void PressToSpeakBegin() {
+        MuteLocal(false);
+    }
+
+    public static void PressToSpeakEnd() {
+        MuteLocal(true);
+    }
 }

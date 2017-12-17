@@ -21,6 +21,9 @@ public class MFAgoraTestView : MFUIBase {
         uiBind.SetEnableSpeakerphone.onClick.AddListener(OnSetEnableSpeakerphone);
         uiBind.MuteLocalAudioStream.onClick.AddListener(OnMuteLocalAudioStream);
         uiBind.MuteAllRemoteAudioStreams.onClick.AddListener(OnMuteAllRemoteAudioStreams);
+
+        uiBind.PressToSpeak.onPointerDown.AddListener(OnPressToSpeakDown);
+        uiBind.PressToSpeak.onPointerUp.AddListener(OnPressToSpeakUp);
     }
 
     private void OnMuteAllRemoteAudioStreams() {
@@ -55,4 +58,13 @@ public class MFAgoraTestView : MFUIBase {
         MFUIMgr.Close<MFAgoraTestView>();
         MFUIMgr.Open<MFMainView>();
     }
+
+    private void OnPressToSpeakDown() {
+        MFAgoraMgr.mRtcEngine.MuteLocalAudioStream(false);
+    }
+
+    private void OnPressToSpeakUp() {
+        MFAgoraMgr.mRtcEngine.MuteLocalAudioStream(true);
+    }
+
 }
