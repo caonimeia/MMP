@@ -18,6 +18,7 @@ apply plugin: 'com.android.application'
 
 dependencies {
 	compile project(':AgoraAudioKit.plugin')
+	compile project(':ShareSDK')
 	compile fileTree(dir: 'libs', include: ['*.jar'])
 }
 
@@ -32,7 +33,7 @@ android {
 
     sourceSets {
         main {
-            jniLibs.srcDirs = ['src/main/jniLibs', 'AgoraAudioKit.plugin/libs', 'IMLib/libs']
+            jniLibs.srcDirs = ['src/main/jniLibs', 'AgoraAudioKit.plugin/libs', 'ShareSDK/libs']
         }
     }
 
