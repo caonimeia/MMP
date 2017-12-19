@@ -532,6 +532,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1509932892}
   - component: {fileID: 1509932891}
+  - component: {fileID: 1509932893}
   m_Layer: 0
   m_Name: GameAgent
   m_TagString: Untagged
@@ -564,6 +565,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1509932893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1509932890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eae4e51a18be67c4ca73bc3a447b856a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  appKey: 22f36754c7f7e
+  appSecret: dc6a41c68ddf7e0fd44457a330c78bd1
+  devInfo:
+    qq:
+      Enable: 1
+      SortId: 2
+      AppId: 1106622800
+      AppKey: xTXEIE6TM7RIecak
+      ShareByAppClient: 1
 --- !u!1 &1654251533
 GameObject:
   m_ObjectHideFlags: 0

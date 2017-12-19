@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using cn.sharesdk.unity3d;
 
 public class GameAgent : MonoBehaviour {
     public bool debug = true;
     private MFNetManager _netMgr = MFNetManager.GetInstance();
     public static MFPlayer curPlayer;
+    public static ShareSDK ssdk;
 
     private void Awake() {
         MFUIMgr.Init();
@@ -23,6 +25,8 @@ public class GameAgent : MonoBehaviour {
 
         MFAgoraMgr.Init();
 #endif
+
+        ssdk = GetComponent<ShareSDK>();
 
         MFApplicationUtil.SetDebugMode(debug);
 

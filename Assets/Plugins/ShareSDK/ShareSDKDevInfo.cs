@@ -7,48 +7,48 @@ namespace cn.sharesdk.unity3d
 	[Serializable]
 	public class DevInfoSet
 	{
-		public SinaWeiboDevInfo sinaweibo;
-		public TencentWeiboDevInfo tencentweibo;
-		public Facebook facebook;
-		public Twitter twitter;
-		public Email email;
-		public ShortMessage shortMessage;
-		public Douban douban;
-		public Renren renren;
-		public GooglePlus googlePlus;
-		public KaiXin kaiXin;
-		public Pocket pocket;
-		public Instagram instagram;
-		public LinkedIn linkedIn;
-		public Tumblr tumblr;
-		public YouDao youDao;
-		public Flickr flickr;
-		public Evernote evernote;
-		public WhatsApp whatsApp;
-		public Line line;
-		public Dropbox dropbox;
-		public VKontakte vkontakte;
-		public Pinterest pinterest;
-		public Mingdao mingdao;
-		public KakaoTalk kakaoTalk;
-		public KakaoStory kakaoStory;
+		//public SinaWeiboDevInfo sinaweibo;
+		//public TencentWeiboDevInfo tencentweibo;
+		//public Facebook facebook;
+		//public Twitter twitter;
+		//public Email email;
+		//public ShortMessage shortMessage;
+		//public Douban douban;
+		//public Renren renren;
+		//public GooglePlus googlePlus;
+		//public KaiXin kaiXin;
+		//public Pocket pocket;
+		//public Instagram instagram;
+		//public LinkedIn linkedIn;
+		//public Tumblr tumblr;
+		//public YouDao youDao;
+		//public Flickr flickr;
+		//public Evernote evernote;
+		//public WhatsApp whatsApp;
+		//public Line line;
+		//public Dropbox dropbox;
+		//public VKontakte vkontakte;
+		//public Pinterest pinterest;
+		//public Mingdao mingdao;
+		//public KakaoTalk kakaoTalk;
+		//public KakaoStory kakaoStory;
 		public QQ qq;
-		public QZone qzone;
-		public WeChat wechat;
-		public WeChatMoments wechatMoments; 
-		public WeChatFavorites wechatFavorites;
-		public Yixin yixin;
-		public YixinMoments yixinMoments;
-		public FacebookMessenger facebookMessenger;
-		public Instapaper instapaper;
-		public AliSocial aliSocial;
-		public AliSocialMoments aliSocialMoments;
-		public Dingding dingTalk;
-		public Youtube youtube;
-		public MeiPai meiPai;
+		//public QZone qzone;
+		//public WeChat wechat;
+		//public WeChatMoments wechatMoments; 
+		//public WeChatFavorites wechatFavorites;
+		//public Yixin yixin;
+		//public YixinMoments yixinMoments;
+		//public FacebookMessenger facebookMessenger;
+		//public Instapaper instapaper;
+		//public AliSocial aliSocial;
+		//public AliSocialMoments aliSocialMoments;
+		//public Dingding dingTalk;
+		//public Youtube youtube;
+		//public MeiPai meiPai;
 
 		#if UNITY_ANDROID
-		public FourSquare fourSquare;
+		//public FourSquare fourSquare;
 		#elif UNITY_IPHONE		
 		public Copy copy;
 		public YixinFavorites yixinFavorites;					//易信收藏，仅iOS端支持							[仅支持iOS端]
