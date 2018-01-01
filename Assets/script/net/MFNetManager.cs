@@ -27,7 +27,6 @@ class MFNetManager {
         _socketClient = socketClient;
 
         //todo 换个位置？
-        //MFServerAgent.InitProtocolList();
         MFServerAgent.Init();
     }
 
@@ -52,11 +51,19 @@ class MFNetManager {
 
     private void DispatchRespond(string data) {
         // 随便找个int当做具体类型 反正只需要header部分
-        MFRespondHeader rh = MFJsonSerialzator.DeSerialize<MFRespondProtocol<int>>(data).header;
-        MFServerAgent.InvokeRpcCallBack(rh.protocolId, data);
+        try {
+            MFRespondHeader rh = MFJsonSerialzator.DeSerialize<MFRespondProtocol<int>>(data).header;
+            if (rh.result != 0)
+                MFLog.LogError(rh.result, rh.errMsg);
 
-        if (rh.result != 0)
-            MFLog.LogError(rh.result, rh.errMsg);
+            MFServerAgentBase.Receive(rh.protocolId, data);
+        }
+        catch (Exception e) {
+            MFLog.LogError(e.ToString());
+            MFLog.LogError(data);
+        }
+        
+        
     }
 
     // Unity不允许在主线程之外访问GameObject和Unity的接口 所以加入一个队列 由主线程在Update中调用

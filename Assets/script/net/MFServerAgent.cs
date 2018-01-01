@@ -6,6 +6,52 @@ public class Protocol {
     public string name;
 }
 
+public class MFServerAgentBase {
+    public static Dictionary<MFProtocolId, MFProtocolAction> requestDic = new Dictionary<MFProtocolId, MFProtocolAction>();
+    public static Dictionary<MFProtocolId, MFProtocolAction> respondDic = new Dictionary<MFProtocolId, MFProtocolAction>();
+
+    public static void Init() {
+        //初始化协议实例
+        ProtocolList.Init();
+    }
+
+    public static void RegisterRequest(MFProtocolId id, MFProtocolAction actionClass) {
+        if (requestDic.ContainsKey(id)) {
+            MFLog.LogError("请求协议重复注册：", id);
+            return;
+        }
+        requestDic.Add(id, actionClass);
+    }
+
+    public static void RegisterRespond(MFProtocolId id, MFProtocolAction p) {
+        if (respondDic.ContainsKey(id)) {
+            MFLog.LogError("响应协议重复注册：", id);
+            return;
+        }
+        respondDic.Add(id, p);
+    }
+
+    public static void Send(MFProtocolId id, params object[] args) {
+        MFProtocolAction actionClass;
+        if(!requestDic.TryGetValue(id, out actionClass)) {
+            MFLog.LogError("请求协议未注册：", id);
+            return;
+        }
+        
+        actionClass.Request(id, args);
+    }
+
+    public static void Receive(MFProtocolId id, string data) {
+        MFProtocolAction actionClass;
+        if (!respondDic.TryGetValue(id, out actionClass)) {
+            MFLog.LogError("响应协议未注册：", id);
+            return;
+        }
+
+        actionClass.Respond(data);
+    }
+}
+
 public static class MFServerAgent {
     private static Dictionary<int, Protocol> protocolDic = new Dictionary<int, Protocol>();
     private static Dictionary<MFProtocolId, Action<string>> respondCallBackDic = new Dictionary<MFProtocolId, Action<string>>();
@@ -25,10 +71,6 @@ public static class MFServerAgent {
         
     }
 
-    public static void RegisterRpcCallBack<T>(MFProtocolId protocolId, Action<MFRespondHeader, T> callBack) {
-        Messenger<MFRespondHeader, T>.AddListener(protocolId.ToString(), callBack);
-    }
-
     public static void InvokeRpcCallBack(MFProtocolId protocolId, string data) {
         Action<string> action;
         if(respondCallBackDic.TryGetValue(protocolId, out action)) {
@@ -36,7 +78,7 @@ public static class MFServerAgent {
         }
     }
 
-    private static void DoRequest<T>(T arg) {
+    public static void DoRequest<T>(T arg) {
         string data = MFJsonSerialzator.Serialize(arg);
         MFNetManager.GetInstance().Send(data);
     }
@@ -55,13 +97,14 @@ public static class MFServerAgent {
             },
             data = new MFQQLoginRequest {
                 playerId = playerId,
+                type = PlatformTypeDebug.win,
             },
         });
     }
 
     public static void OnQQLoginRespond(string data) {
         MFRespondProtocol<MFQQLoginRespond> rp = MFJsonSerialzator.DeSerialize<MFRespondProtocol<MFQQLoginRespond>>(data);
-        Messenger<MFRespondHeader, MFQQLoginRespond>.Broadcast(rp.header.protocolId.ToString(), rp.header, rp.data);
+        MFUIMgr.GetUiInstance<MFLoginView>().OnQQLoginRespond(rp.header, rp.data);
     }
     #endregion
 
@@ -79,7 +122,7 @@ public static class MFServerAgent {
 
     public static void OnGetBookDetailRespond(string data) {
         MFRespondProtocol<MFGetBookDetailRespond> rp = MFJsonSerialzator.DeSerialize<MFRespondProtocol<MFGetBookDetailRespond>>(data);
-        Messenger<MFRespondHeader, MFGetBookDetailRespond>.Broadcast(rp.header.protocolId.ToString(), rp.header, rp.data);
+        MFUIMgr.GetUiInstance<MFBookView>().OnGetBookDetailRespond(rp.header, rp.data);
     }
     #endregion
 

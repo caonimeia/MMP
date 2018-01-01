@@ -13,10 +13,8 @@ public class GameAgent : MonoBehaviour {
         MFUIMgr.Init();
         
 #if UNITY_EDITOR
-        if (debug)
-            _netMgr.Init(new MFSocketClient("127.0.0.1", 8090));
-        else
-            _netMgr.Init(new MFSocketClient("192.168.0.107", 8090));
+        if (!debug)
+            _netMgr.Init(new MFSocketClient("116.196.109.146", 8090));
 #else
         if (debug)
             _netMgr.Init(new MFSocketClient("10.0.2.2", 8090));
@@ -30,12 +28,19 @@ public class GameAgent : MonoBehaviour {
 
         MFApplicationUtil.SetDebugMode(debug);
 
+        MFServerAgentBase.Init();
+
         DontDestroyOnLoad(gameObject);
+
+        if (debug)
+            MFLog.LogInfo("Debug Mode Start");
     }
 
     // Use this for initialization
     private void Start() {
-        MFNetManager.GetInstance().Connect();
+        if (!debug)
+            MFNetManager.GetInstance().Connect();
+
         MFUIMgr.Open<MFLoginView>();
     }
 
@@ -50,6 +55,7 @@ public class GameAgent : MonoBehaviour {
     }
 
     private void OnDestroy() {
-        MFNetManager.GetInstance().DisConnect();
+        if (!debug)
+            MFNetManager.GetInstance().DisConnect();
     }
 }

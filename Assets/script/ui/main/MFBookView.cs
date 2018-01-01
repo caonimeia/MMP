@@ -18,8 +18,6 @@ public class MFBookView : MFUIBase {
 
         uiBind = GetComponent<MFBookViewBind>();
         Assert.IsNotNull(uiBind);
-
-        MFServerAgent.RegisterRpcCallBack<MFGetBookDetailRespond>(MFProtocolId.getBookDetailRespond, OnGetBookDetailRespond);
     }
 
     protected override void Start() {
@@ -39,7 +37,8 @@ public class MFBookView : MFUIBase {
     protected override void OnShow() {
         base.OnShow();
 
-        MFServerAgent.DoGetBookDetailRequest(_currBookId);
+        MFServerAgentBase.Send(MFProtocolId.getBookDetailRequest, _currBookId);
+        //MFServerAgent.DoGetBookDetailRequest(_currBookId);
     }
 
     protected override void OnDisable() {
@@ -125,7 +124,7 @@ public class MFBookView : MFUIBase {
 
     #region 服务器响应
     // 获取本子详细
-    private void OnGetBookDetailRespond(MFRespondHeader header, MFGetBookDetailRespond data) {
+    public void OnGetBookDetailRespond(MFRespondHeader header, MFGetBookDetailRespond data) {
         if(header.result == 0) {
             MFGameObjectUtil.Find<Text>(uiBind.backStoryPanel, "Content").text = data.backStory;
         }

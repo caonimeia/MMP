@@ -10,7 +10,11 @@ public struct MFBookInfo {
     public string name;
     public int playerCount;
     public float price;
-    public bool buy;
+    public bool isBuy;
+    public string description;
+    public int difficulty;
+    public int quantity;
+    public int type;
 }
 
 public class MFBook {
@@ -32,7 +36,7 @@ public class MFBook {
         _name = info.name;
         _playerCount = info.playerCount;
         _price = info.price;
-        _isBuy = info.buy;
+        _isBuy = info.isBuy;
     }
 
     public int GetId() {

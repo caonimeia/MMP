@@ -27,6 +27,39 @@ public enum MFProtocolId {
     readyToStartRespond,
 }
 
+public interface MFProtocolAction {
+    void Request(MFProtocolId id, params object[] args);
+    void Respond(string data);
+}
+
+public abstract class MFProtocolReg {
+    public MFProtocolReg() {
+        Register();
+    }
+
+    protected abstract void Register();
+}
+
+public static class ProtocolList {
+    public static List<MFProtocolReg> list = new List<MFProtocolReg>();
+
+    public static void Init() {
+        if (MFApplicationUtil.IsOpenDebug())
+            InitDebugList();
+        else
+            InitReleaseList();
+    }
+
+    private static void InitDebugList() {
+        list.Add(new MFMockQQLogin());
+        list.Add(new MFMockGetBookDetail());
+    }
+
+    private static void InitReleaseList() {
+        list.Add(new MFServerQQLogin());
+    }
+}
+
 [Serializable]
 public class MFRequestHeader {
     public MFProtocolId protocolId;
@@ -55,7 +88,9 @@ public class MFRespondProtocol<T> {
 #region QQ登录
 [Serializable]
 public class MFQQLoginRequest {
+    public string tokenId;
     public int playerId;
+    public PlatformTypeDebug type;
 }
 
 [Serializable]
