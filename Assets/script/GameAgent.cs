@@ -12,6 +12,7 @@ public class GameAgent : MonoBehaviour {
     private void Awake() {
         MFUIMgr.Init();
         
+        // 服务器做成一个可以选择的列表
 #if UNITY_EDITOR
         if (!debug)
             _netMgr.Init(new MFSocketClient("116.196.109.146", 8090));
@@ -19,13 +20,11 @@ public class GameAgent : MonoBehaviour {
         if (debug)
             _netMgr.Init(new MFSocketClient("10.0.2.2", 8090));
         else
-            _netMgr.Init(new MFSocketClient("192.168.0.101", 8090));
+            _netMgr.Init(new MFSocketClient("116.196.109.146", 8090));
 
         MFAgoraMgr.Init();
-#endif
-
         ssdk = GetComponent<ShareSDK>();
-
+#endif
         MFApplicationUtil.SetDebugMode(debug);
 
         MFServerAgentBase.Init();

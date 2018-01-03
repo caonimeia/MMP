@@ -21,8 +21,10 @@ public class MFLoginView : MFUIBase {
         Assert.IsNotNull(uiBind);
         AddBtnListener();
 
+#if !UNITY_EDITOR
         GameAgent.ssdk.authHandler = AuthResultHandler;
         GameAgent.ssdk.showUserHandler = OnGetUserInfo;
+#endif
     }
 
     private void OnGetUserInfo(int reqID, ResponseState state, PlatformType type, Hashtable result){
@@ -35,11 +37,11 @@ public class MFLoginView : MFUIBase {
         }
         else if (state == ResponseState.Fail)
         {
-            #if UNITY_ANDROID
+#if UNITY_ANDROID
             print ("fail! throwable stack = " + result["stack"] + "; error msg = " + result["msg"]);
-            #elif UNITY_IPHONE
+#elif UNITY_IPHONE
             print ("fail! error code = " + result["error_code"] + "; error msg = " + result["error_msg"]);
-            #endif
+#endif
         }
         else if (state == ResponseState.Cancel) 
         {
@@ -74,7 +76,7 @@ public class MFLoginView : MFUIBase {
         //MFServerAgent.DoQQLoginRequest(10086);
 #else
         GameAgent.ssdk.Authorize(PlatformType.QQPlatform);
-#endif   
+#endif
     }
 
     private void OnWeChatLoginBtnClick() {

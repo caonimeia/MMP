@@ -14,7 +14,7 @@ public enum MFProtocolId {
     getBookDetailRequest,
     getBookDetailRespond,
 
-    createRoomRequest,
+    createRoomRequest = 3000,
     createRoomRespond,
 
     joinPrepareRoomRequest,
@@ -57,6 +57,8 @@ public static class ProtocolList {
 
     private static void InitReleaseList() {
         list.Add(new MFServerQQLogin());
+        list.Add(new MFServerGetBookDetail());
+        list.Add(new MFServerCreateRoom());
     }
 }
 
@@ -116,16 +118,15 @@ public class MFGetBookDetailRespond {
 #region 创建房间
 [Serializable]
 public class MFCreateRoomRequest {
-    public int playerId;
-    public int bookId;
+    public string scriptId;
 }
 
 [Serializable]
 public class MFCreateRoomRespond {
-    public int roomId;
-    public int roomMasterId;
-    public MFBookInfo bookInfo;
-    public List<MFPlayerInfo> playerList;
+    public string scriptId;
+    public int roomNumber;
+    public int playerCount;
+    public List<MFPrepareRoomPlayerInfo> userList;
 }
 #endregion
 

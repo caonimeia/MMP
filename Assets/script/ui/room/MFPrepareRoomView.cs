@@ -6,17 +6,18 @@ using UnityEngine.UI;
 
 public class MFRoomInfo {
     public int roomId;
-    public int roomMasterId;
-    public MFBookInfo bookInfo;
-    public List<MFPlayerInfo> playerInfoList;
+    //public int roomMasterId;
+    //public MFBookInfo bookInfo;
+    public List<MFPrepareRoomPlayerInfo> playerInfoList;
+    public int roomMaxPlayerCount; //本子能容纳的最大玩家数量
 }
 
 public class MFPrepareRoomView : MFUIBase {
-    private int _roomId;
+    //private int _roomId;
     private MFPrepareRoomBind uiBind;
     private MFRoomInfo _roomInfo;
-    private List<MFPlayerInfo> _playerInfoList;
-    private MFBookInfo _bookInfo;
+    //private List<MFPlayerInfo> _playerInfoList;
+    //private MFBookInfo _bookInfo;
 
     protected override void Awake() {
         base.Awake();
@@ -25,13 +26,14 @@ public class MFPrepareRoomView : MFUIBase {
         Assert.IsNotNull(uiBind);
     }
 
-    public static void Open(int roomId, int roomMasterId, MFBookInfo bookInfo, List<MFPlayerInfo> playerInfoList) {
+    public static void Open(int roomId, int roomMaxPlayerCount, List<MFPrepareRoomPlayerInfo> playerInfoList) {
         MFUIMgr.Open<MFPrepareRoomView>(instance => {
             instance._roomInfo = new MFRoomInfo {
                 roomId = roomId,
-                roomMasterId = roomMasterId,
-                bookInfo = bookInfo,
+                //roomMasterId = roomMasterId,
+                //bookInfo = bookInfo,
                 playerInfoList = playerInfoList,
+                roomMaxPlayerCount = roomMaxPlayerCount,
             };
         });
     }
@@ -68,7 +70,7 @@ public class MFPrepareRoomView : MFUIBase {
 
     private void SetRoomInfo() {
         uiBind.roomName.text = string.Format("房号 {0}", _roomInfo.roomId);
-        if (_roomInfo.roomMasterId == GameAgent.curPlayer.GetId()) {
+        if (isRoomMaster()) {
             uiBind.startBtn.gameObject.SetActive(true);
             uiBind.readyBtn.gameObject.SetActive(false);
         } else {
@@ -78,7 +80,7 @@ public class MFPrepareRoomView : MFUIBase {
     }
 
     private void InitRoomPlayerInfo() {
-        for(int i = 0; i < _roomInfo.bookInfo.playerCount; i++) {
+        for(int i = 0; i < _roomInfo.roomMaxPlayerCount; i++) {
             GameObject bookInfoObj = Instantiate(uiBind.playerInfoTemp, uiBind.playerListPanel.transform, false);
             bookInfoObj.SetActive(true);
             if (i < _roomInfo.playerInfoList.Count) {
@@ -87,6 +89,16 @@ public class MFPrepareRoomView : MFUIBase {
                 MFGameObjectUtil.Find(bookInfoObj, "Button").GetComponent<Image>().sprite = Resources.Load("texture/add2", typeof(Sprite)) as Sprite;
             }
         }
+    }
+
+    private bool isRoomMaster() {
+        foreach(var item in _roomInfo.playerInfoList) {
+            if(item.name == GameAgent.curPlayer.GetName())
+                return item.isRoomOwner;
+        }
+
+        MFLog.LogError("没有找到房主");
+        return false;
     }
 
     #region 服务器响应

@@ -11,6 +11,7 @@ public class MFBookItem {
     public int playerCount;
     public float price;
     public bool isBuy;
+    public bool isFree;
     public Action<MFBookItem> action;
 
     public void OnAction() {
@@ -127,6 +128,7 @@ public class MFMainView : MFUIBase {
                 playerCount = book.GetPlayerCount(),
                 price = book.GetPrice(),
                 isBuy = book.IsBuy(),
+                isFree = book.IsFree(),
                 action = OnBookClick,
             };
             bookItemList.Add(bookItem);
@@ -152,7 +154,7 @@ public class MFMainView : MFUIBase {
                 bookPlayerCount.text = itor.Current.playerCount.ToString();
                 GameObject openBookBtn = MFGameObjectUtil.Find(bookInfoObj, "Open");
                 GameObject buyBookBtn = MFGameObjectUtil.Find(bookInfoObj, "Buy");
-                if (itor.Current.isBuy) {
+                if (itor.Current.isFree || itor.Current.isBuy) {
                     buyBookBtn.SetActive(false);
                     openBookBtn.SetActive(true);
                     openBookBtn.GetComponent<Button>().onClick.AddListener(itor.Current.OnAction);
@@ -170,7 +172,7 @@ public class MFMainView : MFUIBase {
 
     // 点击本子下面的按钮
     private void OnBookClick(MFBookItem info) {
-        if (info.isBuy) {
+        if (info.isFree || info.isBuy) {
             MFUIMgr.Close<MFMainView>();
             MFBookView.Open(info.id);
         }

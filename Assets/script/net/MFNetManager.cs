@@ -52,9 +52,12 @@ class MFNetManager {
     private void DispatchRespond(string data) {
         // 随便找个int当做具体类型 反正只需要header部分
         try {
+            MFLog.LogInfo(data);
             MFRespondHeader rh = MFJsonSerialzator.DeSerialize<MFRespondProtocol<int>>(data).header;
-            if (rh.result != 0)
+            if (rh.result != 0) {
                 MFLog.LogError(rh.result, rh.errMsg);
+                return;
+            }
 
             MFServerAgentBase.Receive(rh.protocolId, data);
         }

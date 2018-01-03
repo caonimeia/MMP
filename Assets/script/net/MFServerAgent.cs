@@ -133,8 +133,8 @@ public static class MFServerAgent {
                 protocolId = MFProtocolId.createRoomRequest,
             },
             data = new MFCreateRoomRequest {
-                playerId = playerId,
-                bookId = bookId,
+                //playerId = playerId,
+                //bookId = bookId,
             },
         });
     }

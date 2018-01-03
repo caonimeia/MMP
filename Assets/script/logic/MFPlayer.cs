@@ -4,18 +4,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public struct MFPlayerInfo {
-    public int id;
+public class MFPlayerInfo {
+    public string id;
     public string name;
     public int level;
+    public string icon;
+    public string murdererLoseRate;
+    public string murdererWinRate;
+    public int playScriptNumber;
+    public int point;
+    public string winRate;
+}
+
+[Serializable]
+public class MFPrepareRoomPlayerInfo : MFPlayerInfo {
+    public bool isReady;
+    public bool isRoomOwner;
+    public int roomRole;
 }
 
 public class MFPlayer {
-    private int _id;
+    private string _id;
     private string _name;
     private int _level;
 
-    public MFPlayer(int id, string name, int level) {
+    public MFPlayer(string id, string name, int level) {
         _id = id;
         _name = name;
         _level = level;
@@ -35,7 +48,7 @@ public class MFPlayer {
         return _level;
     }
 
-    public int GetId() {
+    public string GetId() {
         return _id;
     }
 }

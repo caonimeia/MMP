@@ -76,7 +76,7 @@ public class MFBookView : MFUIBase {
 
     // 立即开房
     private void OnOpenRoomBtnClick() {
-        MFServerAgent.DoCreateRoomRequest(1, 1);
+        MFServerAgentBase.Send(MFProtocolId.createRoomRequest, "144528290592600064");
     }
 
     private void AddToggleListener() {
@@ -133,7 +133,7 @@ public class MFBookView : MFUIBase {
     // 创建房间
     public void OnCreateRoomRespond(MFRespondHeader header, MFCreateRoomRespond data) {
         if(header.result == 0) {
-            MFPrepareRoomView.Open(data.roomId, data.roomMasterId, data.bookInfo, data.playerList);
+            MFPrepareRoomView.Open(data.roomNumber, data.playerCount, data.userList);
         }
     }
     #endregion
