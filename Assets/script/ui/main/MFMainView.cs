@@ -66,7 +66,6 @@ public class MFMainView : MFUIBase {
 
     protected override void Start() {
         base.Start();
-        MFAgoraMgr.JoinChannel("9527");
     }
 
     protected override void OnShow() {
@@ -79,6 +78,7 @@ public class MFMainView : MFUIBase {
     protected override void OnEnable() {
         base.OnEnable();
 
+        AddButtonListener();
         AddToggleListener();
         uiBind.bookListToggle.Select();
         uiBind.bookListToggle.isOn = true;
@@ -87,6 +87,7 @@ public class MFMainView : MFUIBase {
     protected override void OnDisable() {
         base.OnDisable();
 
+        RemoveButtonListener();
         RemoveToggleListener();
     }
 
@@ -98,6 +99,26 @@ public class MFMainView : MFUIBase {
     private void RemoveToggleListener() {
         uiBind.bookListToggle.onValueChanged.RemoveListener(OnBookToggleChange);
         uiBind.msgListToggle.onValueChanged.RemoveListener(OnMsgToggleChange);
+    }
+
+    private void AddButtonListener() {
+        uiBind.joinRoomBtn.onClick.AddListener(OnJoinRoomBtnClick);
+        uiBind.joinRoomConfirmBtn.onClick.AddListener(OnJoinRoomConfirmBtnClick);
+    }
+
+    private void RemoveButtonListener() {
+        uiBind.joinRoomBtn.onClick.RemoveListener(OnJoinRoomBtnClick);
+        uiBind.joinRoomConfirmBtn.onClick.RemoveListener(OnJoinRoomConfirmBtnClick);
+    }
+
+    private void OnJoinRoomBtnClick() {
+        uiBind.roomNumberInput.gameObject.SetActive(true);
+        uiBind.joinRoomConfirmBtn.gameObject.SetActive(true);
+    }
+
+    private void OnJoinRoomConfirmBtnClick() {
+        int roomNumber = int.Parse(uiBind.roomNumberInput.text) ;
+        MFServerAgentBase.Send(MFProtocolId.joinPrepareRoomRequest, roomNumber);
     }
 
     private void OnBookToggleChange(bool isOn) {
@@ -219,4 +240,11 @@ public class MFMainView : MFUIBase {
         uiBind.playerName.text = _player.GetName();
         uiBind.playerLevel.text = _player.GetLevel().ToString();
     }
+
+
+    #region 服务器响应
+    public void OnJoinRoomRespond(MFRespondHeader header, MFJoinRoomRespond data) {
+        MFPrepareRoomView.Open(data.roomNumber, data.playerCount, data.userList);
+    }
+    #endregion
 }

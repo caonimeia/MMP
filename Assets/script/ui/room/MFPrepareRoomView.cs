@@ -43,13 +43,15 @@ public class MFPrepareRoomView : MFUIBase {
 
         SetRoomInfo();
         InitRoomPlayerInfo();
+        MFAgoraMgr.JoinChannel(_roomInfo.roomId.ToString());
+        MFAgoraMgr.mRtcEngine.MuteLocalAudioStream(true);
     }
 
     protected override void OnEnable() {
         base.OnEnable();
 
         //先静音自己 todo 修改在加入准备房间的时候自动静音
-        MFAgoraMgr.mRtcEngine.MuteLocalAudioStream(true);
+        
 
         uiBind.readyBtn.onClick.AddListener(OnReadyBtnClick);
         uiBind.speakBtn.onPointerDown.AddListener(OnSpeakBtnDown);

@@ -582,8 +582,8 @@ MonoBehaviour:
     qq:
       Enable: 1
       SortId: 2
-      AppId: 1106622800
-      AppKey: xTXEIE6TM7RIecak
+      AppId: 100371282
+      AppKey: aed9b0303e3ed1e27bae87c33761161d
       ShareByAppClient: 1
 --- !u!1 &1654251533
 GameObject:

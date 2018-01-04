@@ -13,6 +13,8 @@ public class MFAgoraTestView : MFUIBase {
     protected override void Awake() {
         base.Awake();
 
+        MFAgoraMgr.JoinChannel("9527");
+
         uiBind = GetComponent<MFAgoraTestBind>();
         uiBind.Close.onClick.AddListener(OnClickClose);
         uiBind.EnableAudio.onClick.AddListener(OnEnableAudio);

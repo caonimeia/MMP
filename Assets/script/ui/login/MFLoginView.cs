@@ -34,6 +34,8 @@ public class MFLoginView : MFUIBase {
             print (MiniJSON.jsonEncode(result));
             print ("AuthInfo:" + MiniJSON.jsonEncode (GameAgent.ssdk.GetAuthInfo (PlatformType.QQ)));
             print ("Get userInfo success !Platform :" + type );
+            print (GameAgent.ssdk.GetAuthInfo(PlatformType.QQ)["token"]);
+            MFServerAgentBase.Send(MFProtocolId.qqLoginRequest, GameAgent.ssdk.GetAuthInfo(PlatformType.QQ)["token"]);
         }
         else if (state == ResponseState.Fail)
         {

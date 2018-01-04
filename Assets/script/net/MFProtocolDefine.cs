@@ -53,12 +53,15 @@ public static class ProtocolList {
     private static void InitDebugList() {
         list.Add(new MFMockQQLogin());
         list.Add(new MFMockGetBookDetail());
+        list.Add(new MFMockCreateRoom());
+        list.Add(new MFMockJoinRoom());
     }
 
     private static void InitReleaseList() {
         list.Add(new MFServerQQLogin());
         list.Add(new MFServerGetBookDetail());
         list.Add(new MFServerCreateRoom());
+        list.Add(new MFServerJoinRoom());
     }
 }
 
@@ -129,6 +132,22 @@ public class MFCreateRoomRespond {
     public List<MFPrepareRoomPlayerInfo> userList;
 }
 #endregion
+
+#region 加入房间
+[Serializable]
+public class MFJoinRoomRequest {
+    public int roomNumber;
+}
+
+[Serializable]
+public class MFJoinRoomRespond {
+    public string scriptId;
+    public int roomNumber;
+    public int playerCount;
+    public List<MFPrepareRoomPlayerInfo> userList;
+}
+#endregion
+
 
 #region 玩家准备
 [Serializable]

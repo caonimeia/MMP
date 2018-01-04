@@ -18,5 +18,8 @@ public class MFMainViewBind : MonoBehaviour {
     public Text playerName;
     public Text playerLevel;
 
+    public Button joinRoomBtn;
+    public InputField roomNumberInput;
+    public Button joinRoomConfirmBtn;
     public Button testEntrance;
 }
