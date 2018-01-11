@@ -21,7 +21,7 @@ public class MFMockJoinRoom : MFJoinRoomBase {
 
     public override void Respond(string data) {
         MFRespondProtocol<MFJoinRoomRespond> rp = MFJsonSerialzator.DeSerialize<MFRespondProtocol<MFJoinRoomRespond>>(data);
-        MFUIMgr.GetUiInstance<MFMainView>().OnJoinRoomRespond(rp.header, rp.data);
+        MFPrepareRoomView.OnJoinRoomRespond(rp.header, rp.data);
     }
 }
 
@@ -44,6 +44,11 @@ public class MFServerJoinRoom : MFJoinRoomBase {
 
     public override void Respond(string data) {
         MFRespondProtocol<MFJoinRoomRespond> rp = MFJsonSerialzator.DeSerialize<MFRespondProtocol<MFJoinRoomRespond>>(data);
-        MFUIMgr.GetUiInstance<MFMainView>().OnJoinRoomRespond(rp.header, rp.data);
+        if(rp.data.refreshPage == 0) {
+            MFPrepareRoomView.OnJoinRoomRespond(rp.header, rp.data);
+            return;
+        }
+
+        MFUIMgr.GetUiInstance<MFPrepareRoomView>().RefreshPlayerList(rp.data.userList);
     }
 }

@@ -144,6 +144,7 @@ public class MFJoinRoomRespond {
     public string scriptId;
     public int roomNumber;
     public int playerCount;
+    public int refreshPage;
     public List<MFPrepareRoomPlayerInfo> userList;
 }
 #endregion

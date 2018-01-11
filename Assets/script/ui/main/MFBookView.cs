@@ -76,7 +76,7 @@ public class MFBookView : MFUIBase {
 
     // 立即开房
     private void OnOpenRoomBtnClick() {
-        MFServerAgentBase.Send(MFProtocolId.createRoomRequest, "144528290592600064");
+        MFServerAgentBase.Send(MFProtocolId.createRoomRequest, "148219065788542976");
     }
 
     private void AddToggleListener() {

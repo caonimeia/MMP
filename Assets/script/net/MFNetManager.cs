@@ -56,7 +56,6 @@ class MFNetManager {
             MFRespondHeader rh = MFJsonSerialzator.DeSerialize<MFRespondProtocol<int>>(data).header;
             if (rh.result != 0) {
                 MFLog.LogError(rh.result, rh.errMsg);
-                return;
             }
 
             MFServerAgentBase.Receive(rh.protocolId, data);

@@ -18,12 +18,15 @@ public class MFPrepareRoomView : MFUIBase {
     private MFRoomInfo _roomInfo;
     //private List<MFPlayerInfo> _playerInfoList;
     //private MFBookInfo _bookInfo;
+    private List<GameObject> _playerInfoObjList;
 
     protected override void Awake() {
         base.Awake();
 
         uiBind = GetComponent<MFPrepareRoomBind>();
         Assert.IsNotNull(uiBind);
+
+        _playerInfoObjList = new List<GameObject>();
     }
 
     public static void Open(int roomId, int roomMaxPlayerCount, List<MFPrepareRoomPlayerInfo> playerInfoList) {
@@ -43,15 +46,14 @@ public class MFPrepareRoomView : MFUIBase {
 
         SetRoomInfo();
         InitRoomPlayerInfo();
+
+        // 加入频道 静音自己
         MFAgoraMgr.JoinChannel(_roomInfo.roomId.ToString());
         MFAgoraMgr.mRtcEngine.MuteLocalAudioStream(true);
     }
 
     protected override void OnEnable() {
         base.OnEnable();
-
-        //先静音自己 todo 修改在加入准备房间的时候自动静音
-        
 
         uiBind.readyBtn.onClick.AddListener(OnReadyBtnClick);
         uiBind.speakBtn.onPointerDown.AddListener(OnSpeakBtnDown);
@@ -82,15 +84,27 @@ public class MFPrepareRoomView : MFUIBase {
     }
 
     private void InitRoomPlayerInfo() {
-        for(int i = 0; i < _roomInfo.roomMaxPlayerCount; i++) {
-            GameObject bookInfoObj = Instantiate(uiBind.playerInfoTemp, uiBind.playerListPanel.transform, false);
-            bookInfoObj.SetActive(true);
+        ClearPlayerInfoObjList();
+
+        for (int i = 0; i < _roomInfo.roomMaxPlayerCount; i++) {
+            GameObject playerInfoObj = Instantiate(uiBind.playerInfoTemp, uiBind.playerListPanel.transform, false);
+            playerInfoObj.SetActive(true);
             if (i < _roomInfo.playerInfoList.Count) {
-                MFGameObjectUtil.Find<Text>(bookInfoObj, "Name").text = _roomInfo.playerInfoList[i].name;
+                MFGameObjectUtil.Find<Text>(playerInfoObj, "Name").text = _roomInfo.playerInfoList[i].name;
             } else {
-                MFGameObjectUtil.Find(bookInfoObj, "Button").GetComponent<Image>().sprite = Resources.Load("texture/add2", typeof(Sprite)) as Sprite;
+                MFGameObjectUtil.Find(playerInfoObj, "Button").GetComponent<Image>().sprite = Resources.Load("texture/add2", typeof(Sprite)) as Sprite;
             }
+
+            _playerInfoObjList.Add(playerInfoObj);
         }
+    }
+
+    private void ClearPlayerInfoObjList() {
+        foreach(GameObject obj in _playerInfoObjList) {
+            Destroy(obj);
+        }
+
+        _playerInfoObjList.Clear();
     }
 
     private bool isRoomMaster() {
@@ -103,11 +117,27 @@ public class MFPrepareRoomView : MFUIBase {
         return false;
     }
 
+    public void RefreshPlayerList(List<MFPrepareRoomPlayerInfo> playerInfoList) {
+        _roomInfo.playerInfoList = playerInfoList;
+        SetRoomInfo();
+        InitRoomPlayerInfo();
+    }
+
+
+
     #region 服务器响应
     public void OnReadyToStartRespond(MFRespondHeader header, MFReadyToStartRespond data) {
         if(header.result == 0) {
             MFLog.LogInfo("玩家准备完成");
         }
     }
+
+    // 加入房间 静态的原因是还没有创建实例
+    public static void OnJoinRoomRespond(MFRespondHeader header, MFJoinRoomRespond data) {
+        if (header.result == 0) {
+            Open(data.roomNumber, data.playerCount, data.userList);
+        }
+    }
+
     #endregion
 }
