@@ -12,4 +12,9 @@ public class MFPrepareRoomBind : MonoBehaviour {
     public Button readyBtn;
     public Button startBtn;
     public MFButton speakBtn;
+    public Button sendScriptBtn;
+
+    public Button selectCharacterBtn;
+    public GameObject characterListPanel;
+    public GameObject characterInfoTmp;
 }

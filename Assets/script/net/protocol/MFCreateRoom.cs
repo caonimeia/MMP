@@ -15,7 +15,7 @@
 
 public class MFMockCreateRoom : MFCreateRoomBase {
     public override void Request(MFProtocolId id, params object[] args) {
-        string data = "{\"header\": {\"protocolId\": 6, \"result\": 0, \"errMsg\": \"\"}, \"data\": {\"backStory\": \"aaaa\\n aaaa\"} }";
+        string data = "{\"data\": {\"roomNumber\": 1002, \"scriptId\": \"144528290592600064\", \"playerCount\" : 4, \"userList\": [{\"icon\": \"\", \"isReady\": false, \"isRoomOwner\": true, \"level\": 1, \"murdererLoseRate\": \"40%\", \"murdererWinRate\": \"50%\", \"name\": \"测试账号\", \"playScriptNumber\": 0, \"point\": 100, \"roomRole\": -1, \"winRate\": \"60%\"}, {\"icon\": \"\", \"isReady\": false, \"isRoomOwner\": false, \"level\": 1, \"murdererLoseRate\": \"40%\", \"murdererWinRate\": \"50%\", \"name\": \"测试账号\", \"playScriptNumber\": 0, \"point\": 100, \"roomRole\": -1, \"winRate\": \"60%\"} ] }, \"header\": {\"protocolId\": 3001, \"result\": 0 } }";
         Respond(data);
     }
 

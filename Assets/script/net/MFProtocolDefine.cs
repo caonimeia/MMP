@@ -5,6 +5,7 @@ using UnityEngine.Assertions;
 public enum MFProtocolId {
     none = -1,
     connect = 0,
+
     qqLoginRequest, 
     qqLoginRespond,
 
@@ -14,17 +15,34 @@ public enum MFProtocolId {
     getBookDetailRequest,
     getBookDetailRespond,
 
+
+    // 玩家创建房间
     createRoomRequest = 3000,
     createRoomRespond,
 
+    // 玩家加入房间
     joinPrepareRoomRequest,
-    joinPrepareRoomRespond,
+    joinPrepareRoomRespond,   // 广播给房间内的其他玩家
 
-    startGameRequest,
-    startGameRespond,
+    // 玩家获取剧本列表
+    getCharacterListRequest,
+    getCharacterListRespond,
 
+    // 玩家选择剧本
+    selectCharacterRequest,
+    selectCharacterRespond,   // 广播给房间内的其他玩家
+
+    // 发放对应的剧本信息给玩家
+    sendCharacterScriptRequest,
+    sendCharacterScriptRespond,
+
+    // 玩家准备
     readyToStartRequest,
-    readyToStartRespond,
+    readyToStartRespond,     // 广播给房间内的其他玩家
+
+    // 房主开始游戏
+    startGameRequest,
+    startGameRespond,        // 广播给房间内的其他玩家
 }
 
 public interface MFProtocolAction {
@@ -55,6 +73,9 @@ public static class ProtocolList {
         list.Add(new MFMockGetBookDetail());
         list.Add(new MFMockCreateRoom());
         list.Add(new MFMockJoinRoom());
+        list.Add(new MFMockGetCharacterList());
+        list.Add(new MFMockSelectCharacter());
+        list.Add(new MFMockSendCharacterScript());
     }
 
     private static void InitReleaseList() {
@@ -62,6 +83,9 @@ public static class ProtocolList {
         list.Add(new MFServerGetBookDetail());
         list.Add(new MFServerCreateRoom());
         list.Add(new MFServerJoinRoom());
+        list.Add(new MFServerGetCharacterList());
+        list.Add(new MFServerSelectCharacter());
+        list.Add(new MFServerSendCharacterScript());
     }
 }
 
@@ -81,6 +105,7 @@ public class MFRespondHeader {
     public MFProtocolId protocolId;
     public int result;
     public string errMsg;
+    public bool broadcast;
 }
 
 [Serializable]
@@ -146,6 +171,44 @@ public class MFJoinRoomRespond {
     public int playerCount;
     public int refreshPage;
     public List<MFPrepareRoomPlayerInfo> userList;
+}
+#endregion
+
+#region 获取剧本角色列表
+[Serializable]
+public class MFGetCharacterListRequest {
+    public int roomNumber;
+}
+
+[Serializable]
+public class MFGetCharacterListRespond {
+    public List<MFCharacterInfo> roleList;
+}
+#endregion
+
+#region 选择剧本角色
+[Serializable]
+public class MFSelectCharacterRequest {
+    public int roomNumber;
+    public int roleId;
+}
+
+[Serializable]
+public class MFSelectCharacterRespond {
+    public bool result;
+    public List<MFCharacterInfo> roleList;
+}
+#endregion
+
+#region 房主发放剧本
+[Serializable]
+public class MFSendCharacterScriptRequest {
+    public int roomNumber;
+}
+
+[Serializable]
+public class MFSendCharacterScriptRespond {
+    public string script;
 }
 #endregion
 
