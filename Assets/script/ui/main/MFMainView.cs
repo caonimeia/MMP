@@ -244,7 +244,7 @@ public class MFMainView : MFUIBase {
 
     #region 服务器响应
     public void OnJoinRoomRespond(MFRespondHeader header, MFJoinRoomRespond data) {
-        MFPrepareRoomView.Open(data.roomNumber, data.playerCount, data.userList);
+        MFPrepareRoomView.Open(data.roomNumber, data.roomOwner, data.playerCount, data.userList);
     }
     #endregion
 }

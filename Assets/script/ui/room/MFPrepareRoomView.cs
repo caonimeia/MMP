@@ -6,7 +6,8 @@ using UnityEngine.Assertions;
 using UnityEngine.UI;
 
 public class MFRoomInfo {
-    public int roomId;
+    public int roomNumber;
+    public string roomOwner;
     //public int roomMasterId;
     //public MFBookInfo bookInfo;
     public List<MFPrepareRoomPlayerInfo> playerInfoList;
@@ -44,10 +45,11 @@ public class MFPrepareRoomView : MFUIBase {
         _characterInfoList = new List<MFCharacterItem>();
     }
 
-    public static void Open(int roomId, int roomMaxPlayerCount, List<MFPrepareRoomPlayerInfo> playerInfoList) {
+    public static void Open(int roomNumber, string roomOwner, int roomMaxPlayerCount, List<MFPrepareRoomPlayerInfo> playerInfoList) {
         MFUIMgr.Open<MFPrepareRoomView>(instance => {
             instance._roomInfo = new MFRoomInfo {
-                roomId = roomId,
+                roomNumber = roomNumber,
+                roomOwner = roomOwner,
                 //roomMasterId = roomMasterId,
                 //bookInfo = bookInfo,
                 playerInfoList = playerInfoList,
@@ -65,7 +67,7 @@ public class MFPrepareRoomView : MFUIBase {
 
 
         // 加入频道 静音自己
-        MFAgoraMgr.JoinChannel(_roomInfo.roomId.ToString());
+        MFAgoraMgr.JoinChannel(_roomInfo.roomNumber.ToString());
         MFAgoraMgr.mRtcEngine.MuteLocalAudioStream(true);
     }
 
@@ -89,10 +91,6 @@ public class MFPrepareRoomView : MFUIBase {
 
     }
 
-    private void OnReadyBtnClick() {
-          
-    }
-
     private void OnSpeakBtnDown() {
         MFAgoraMgr.PressToSpeakBegin();
     }
@@ -102,7 +100,7 @@ public class MFPrepareRoomView : MFUIBase {
     }
 
     private void SetRoomInfo() {
-        uiBind.roomName.text = string.Format("房号 {0}", _roomInfo.roomId);
+        uiBind.roomName.text = string.Format("房号 {0}", _roomInfo.roomNumber);
         if (isRoomMaster()) {
             uiBind.startBtn.gameObject.SetActive(false);
             uiBind.startBtn.enabled = false;
@@ -132,6 +130,8 @@ public class MFPrepareRoomView : MFUIBase {
             playerInfoObj.SetActive(true);
             if (i < _roomInfo.playerInfoList.Count) {
                 MFGameObjectUtil.Find<Text>(playerInfoObj, "Name").text = _roomInfo.playerInfoList[i].name;
+                MFGameObjectUtil.Find(playerInfoObj, "ReadyMark").SetActive(_roomInfo.playerInfoList[i].ready);
+                
             } else {
                 MFGameObjectUtil.Find(playerInfoObj, "Button").GetComponent<Image>().sprite = Resources.Load("texture/add2", typeof(Sprite)) as Sprite;
             }
@@ -149,13 +149,7 @@ public class MFPrepareRoomView : MFUIBase {
     }
 
     private bool isRoomMaster() {
-        foreach(var item in _roomInfo.playerInfoList) {
-            if (item.name == GameAgent.curPlayer.GetName())
-                return item.isRoomOwner;
-        }
-
-        MFLog.LogError("没有找到房主");
-        return false;
+        return _roomInfo.roomOwner == GameAgent.curPlayer.GetCodeId();
     }
 
     public void RefreshPlayerList(List<MFPrepareRoomPlayerInfo> playerInfoList) {
@@ -165,13 +159,13 @@ public class MFPrepareRoomView : MFUIBase {
     }
 
     private void OnShowCharacterBtnClick() {
-        MFServerAgentBase.Send(MFProtocolId.getCharacterListRequest, _roomInfo.roomId);
+        MFServerAgentBase.Send(MFProtocolId.getCharacterListRequest, _roomInfo.roomNumber);
     }
 
 
     private void OnSelectCharacterBtnClick(MFCharacterItem item) {
         uiBind.characterListPanel.SetActive(false);
-        MFServerAgentBase.Send(MFProtocolId.selectCharacterRequest, item.characterInfo.roleId, _roomInfo.roomId);
+        MFServerAgentBase.Send(MFProtocolId.selectCharacterRequest, item.characterInfo.roleId, _roomInfo.roomNumber);
     }
 
     private void InitCharacterInfoList(List<MFCharacterInfo> roleList) {
@@ -190,8 +184,6 @@ public class MFPrepareRoomView : MFUIBase {
 
     private void RefreshCharacterInfoList(List<MFCharacterInfo> roleList) {
         InitCharacterInfoList(roleList);
-        MFLog.LogError(isRoomMaster());
-        MFLog.LogError(AllPlayerSelect(roleList));
 
         if (isRoomMaster() && AllPlayerSelect(roleList)) {
             uiBind.sendScriptBtn.gameObject.SetActive(true);
@@ -230,25 +222,33 @@ public class MFPrepareRoomView : MFUIBase {
     }
 
     private void OnStartGameBtnClick() {
-        //MFServerAgentBase.Send(MFProtocolId.)
+        MFServerAgentBase.Send(MFProtocolId.startGameRequest, _roomInfo.roomNumber);
     }
 
 
     private void OnSendScriptBtnClick() {
-        MFServerAgentBase.Send(MFProtocolId.sendCharacterScriptRequest, _roomInfo.roomId);
+        MFServerAgentBase.Send(MFProtocolId.sendCharacterScriptRequest, _roomInfo.roomNumber);
+    }
+
+    private void OnReadyBtnClick() {
+        MFServerAgentBase.Send(MFProtocolId.readyToStartRequest, _roomInfo.roomNumber);
+    }
+
+    private bool AllPlayerReady() {
+        foreach(var player in _roomInfo.playerInfoList) {
+            if (!isRoomMaster() && !player.ready) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     #region 服务器响应
-    public void OnReadyToStartRespond(MFRespondHeader header, MFReadyToStartRespond data) {
-        if(header.result == 0) {
-            MFLog.LogInfo("玩家准备完成");
-        }
-    }
-
     // 加入房间 静态的原因是还没有创建实例
     public static void OnJoinRoomRespond(MFRespondHeader header, MFJoinRoomRespond data) {
         if (header.result == 0) {
-            Open(data.roomNumber, data.playerCount, data.userList);
+            Open(data.roomNumber, data.roomOwner, data.playerCount, data.userList);
         }
     }
 
@@ -277,6 +277,34 @@ public class MFPrepareRoomView : MFUIBase {
         if(header.result == 0) {
             MFLog.LogInfo("发放成功");
             MFLog.LogInfo(data.script);
+
+            if (isRoomMaster()) {
+                uiBind.sendScriptBtn.gameObject.SetActive(false);
+                uiBind.sendScriptBtn.enabled = false;
+
+                uiBind.startBtn.gameObject.SetActive(true);
+                uiBind.startBtn.enabled = false;
+            } else {
+                uiBind.readyBtn.gameObject.SetActive(true);
+                uiBind.readyBtn.enabled = true;
+            }
+        }
+    }
+
+    public void OnReadyToStartRespond(MFRespondHeader header, MFReadyToStartRespond data) {
+        if (header.result == 0) {
+            MFLog.LogInfo("玩家准备完成");
+            RefreshPlayerList(data.userList);
+
+            if (isRoomMaster() && AllPlayerReady()) {
+                uiBind.startBtn.enabled = true;
+            }
+        }
+    }
+
+    public void OnStartGameRespond(MFRespondHeader header, MFStartGameRespond data) {
+        if (header.result == 0) {
+            MFLog.LogInfo("房主开始游戏");
         }
     }
     #endregion

@@ -76,6 +76,8 @@ public static class ProtocolList {
         list.Add(new MFMockGetCharacterList());
         list.Add(new MFMockSelectCharacter());
         list.Add(new MFMockSendCharacterScript());
+        list.Add(new MFMockReadyToStart());
+        list.Add(new MFMockStartGame());
     }
 
     private static void InitReleaseList() {
@@ -86,6 +88,8 @@ public static class ProtocolList {
         list.Add(new MFServerGetCharacterList());
         list.Add(new MFServerSelectCharacter());
         list.Add(new MFServerSendCharacterScript());
+        list.Add(new MFServerReadyToStart());
+        list.Add(new MFServerStartGame());
     }
 }
 
@@ -154,6 +158,7 @@ public class MFCreateRoomRespond {
     public string scriptId;
     public int roomNumber;
     public int playerCount;
+    public string roomOwner;
     public List<MFPrepareRoomPlayerInfo> userList;
 }
 #endregion
@@ -170,6 +175,7 @@ public class MFJoinRoomRespond {
     public int roomNumber;
     public int playerCount;
     public int refreshPage;
+    public string roomOwner;
     public List<MFPrepareRoomPlayerInfo> userList;
 }
 #endregion
@@ -216,12 +222,23 @@ public class MFSendCharacterScriptRespond {
 #region 玩家准备
 [Serializable]
 public class MFReadyToStartRequest {
-    public int roomId;
-    public int playerId;
+    public int roomNumber;
 }
 
 [Serializable]
 public class MFReadyToStartRespond {
+    public List<MFPrepareRoomPlayerInfo> userList;
+}
+#endregion
+
+#region 房主开始游戏
+[Serializable]
+public class MFStartGameRequest {
+    public int roomNumber;
+}
+
+[Serializable]
+public class MFStartGameRespond {
 
 }
 #endregion

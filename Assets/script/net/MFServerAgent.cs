@@ -63,11 +63,11 @@ public static class MFServerAgent {
     }
 
     public static void Init() {
-        respondCallBackDic.Add(MFProtocolId.heartbeatRespond, OnHeartBeatRespond);
-        respondCallBackDic.Add(MFProtocolId.qqLoginRespond, OnQQLoginRespond);
-        respondCallBackDic.Add(MFProtocolId.getBookDetailRespond, OnGetBookDetailRespond);
-        respondCallBackDic.Add(MFProtocolId.createRoomRespond, OnCreateRoomRespond);
-        respondCallBackDic.Add(MFProtocolId.readyToStartRespond, OnReadyToStartRespond);
+        //respondCallBackDic.Add(MFProtocolId.heartbeatRespond, OnHeartBeatRespond);
+        //respondCallBackDic.Add(MFProtocolId.qqLoginRespond, OnQQLoginRespond);
+        //respondCallBackDic.Add(MFProtocolId.getBookDetailRespond, OnGetBookDetailRespond);
+        //respondCallBackDic.Add(MFProtocolId.createRoomRespond, OnCreateRoomRespond);
+        //respondCallBackDic.Add(MFProtocolId.readyToStartRespond, OnReadyToStartRespond);
         
     }
 
@@ -146,21 +146,21 @@ public static class MFServerAgent {
     #endregion
 
     #region 玩家准备
-    public static void DoReadyToStartRequest(int roomId, int playerId) {
-        DoRequest(new MFRequestProtocol<MFReadyToStartRequest> {
-            header = new MFRequestHeader {
-                protocolId = MFProtocolId.readyToStartRequest,
-            },
-            data = new MFReadyToStartRequest {
-                roomId = roomId,
-                playerId = playerId,
-            },
-        });
-    }
+    //public static void DoReadyToStartRequest(int roomId, int playerId) {
+    //    DoRequest(new MFRequestProtocol<MFReadyToStartRequest> {
+    //        header = new MFRequestHeader {
+    //            protocolId = MFProtocolId.readyToStartRequest,
+    //        },
+    //        data = new MFReadyToStartRequest {
+    //            roomId = roomId,
+    //            playerId = playerId,
+    //        },
+    //    });
+    //}
 
-    public static void OnReadyToStartRespond(string data) {
-        MFRespondProtocol<MFReadyToStartRespond> rp = MFJsonSerialzator.DeSerialize<MFRespondProtocol<MFReadyToStartRespond>>(data);
-        MFUIMgr.GetUiInstance<MFPrepareRoomView>().OnReadyToStartRespond(rp.header, rp.data);
-    }
+    //public static void OnReadyToStartRespond(string data) {
+    //    MFRespondProtocol<MFReadyToStartRespond> rp = MFJsonSerialzator.DeSerialize<MFRespondProtocol<MFReadyToStartRespond>>(data);
+    //    MFUIMgr.GetUiInstance<MFPrepareRoomView>().OnReadyToStartRespond(rp.header, rp.data);
+    //}
     #endregion
 }
